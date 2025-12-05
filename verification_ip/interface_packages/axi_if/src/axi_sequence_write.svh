@@ -1,0 +1,129 @@
+class axi_sequence_write extends uvm_sequence #(.REQ(axi_sequence), .RSP(axi_sequence));
+    `uvm_object_utils(axi_sequence)
+
+    axi_transaction req, rsp;
+
+    function new(string name = "");
+        super.new(name);
+    endfunction //new()
+
+    `uvm_declare_p_sequencer(axi_sequencer)
+
+    virtual task body();
+        logic [3:0] awlen; 
+        logic [2:0] awsize; 
+        logic [31:0] awaddr; 
+        logic [1:0] awburst; 
+        int count = 0;
+
+        req = axi_transaction::type_id::create("req");
+        start_item(req);
+        if(!req.randomize() with {wstrb == 4'hf;}) begin
+            `uvm_fatal(get_type_name(),"sequence randomization failed")
+        end
+        req.awvaild =  1;
+        req.wvaild = 1;
+        req.bready = 0;
+        req.arvaild = 0;
+        req.rready = 0;
+
+        req.awid = 0;
+        req.wid = 0;
+        req.bid = 0;
+        req.arid = 0;
+        req.rid = 0;
+
+        awlen = req.awlen;      //len = 7
+        awsize = req.awsize;
+        awaddr = req.awaddr;
+        awburst = req.awburst;
+
+        count = req.awlen + 1;  //count = 8
+
+        finish_item(req);
+        get__response(rsp);
+
+        if(rsp.awready == 1) begin
+            count--;    //count = 7
+        end
+        while (count != 0) begin
+        req = axi_transaction::type_id::create("req");                  
+        start_item(req);
+        if(!req.randomize() with {wstrb == 4'hf;}) begin
+            `uvm_fatal(get_type_name(),"sequence randomization failed")
+        end
+
+        req.awvaild =  1;
+        req.wvaild = 1;
+        req.bready = 0;
+        req.arvaild = 0;
+        req.rready = 0;
+
+        req.awid = 0;
+        req.wid = 0;
+        req.bid = 0;
+        req.arid = 0;
+        req.rid = 0;
+
+        req.awlen = awlen;
+        req.awsize = awsize;
+        req.awaddr = awaddr;
+        req.awburst = awburst;
+
+        finish_item(req);
+        get__response(rsp);
+
+        if(rsp.awready == 1) begin
+            count--;    //count = 6,5,4,3,2,1,0
+        end
+        end
+
+        req = axi_transaction::type_id::create("req");                  
+        start_item(req);
+        req.awvaild =  0;
+        req.wvaild = 0;
+        req.bready = 1;
+        req.arvaild = 0;
+        req.rready = 0;
+        
+        req.awid = 0;
+        req.wid = 0;
+        req.bid = 0;
+        req.arid = 0;
+        req.rid = 0;
+
+        req.awlen = 0;
+        req.awsize = 0;
+        req.awaddr = 0;
+        req.awburst = 0;
+
+        
+        finish_item(req);
+        get__response(rsp);
+
+        req = axi_transaction::type_id::create("req");                  
+        start_item(req);
+        req.awvaild =  0;
+        req.wvaild = 0;
+        req.bready = 0;
+        req.arvaild = 0;
+        req.rready = 0;
+        
+        req.awid = 0;
+        req.wid = 0;
+        req.bid = 0;
+        req.arid = 0;
+        req.rid = 0;
+
+        req.awlen = 0;
+        req.awsize = 0;
+        req.awaddr = 0;
+        req.awburst = 0;
+
+        
+        finish_item(req);
+        get__response(rsp);
+
+    endtask
+
+endclass //axi_sequence extends uvm_sequence
