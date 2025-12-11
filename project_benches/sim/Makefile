@@ -1,6 +1,6 @@
 export PROJ_HOME  ?= $(PWD)/../..
 export PROJ_VIP_HOME ?= $(UVM_HOME)/verification_ip
-export QUESTA_HOME ?= 
+export QUESTA_HOME ?= /opt/questasim
 export PROJ_PB_HOME ?= PROJ_HOME/project_benches
 
 export COMP_HDL ?= vlog -sv
