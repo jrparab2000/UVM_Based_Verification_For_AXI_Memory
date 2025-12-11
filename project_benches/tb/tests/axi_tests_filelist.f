@@ -1,0 +1,1 @@
+$PROJ_PB_HOME/tb/tests/tests_pkg.sv

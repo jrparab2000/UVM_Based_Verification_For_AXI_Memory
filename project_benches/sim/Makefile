@@ -1,0 +1,41 @@
+export PROJ_HOME  ?= $(PWD)/../..
+export PROJ_VIP_HOME ?= $(UVM_HOME)/verification_ip
+export QUESTA_HOME ?= 
+export PROJ_PB_HOME ?= PROJ_HOME/project_benches
+
+export COMP_HDL ?= vlog -sv
+
+COMP_OPT ?= vopt +acc
+
+SV_SEED ?= 123456789
+UVM_TEST ?= test_top
+
+# Include all requisite interface package targets for this bench
+include $(PROJ_VIP_HOME)/interface_packages/axi_if/Makefile
+
+# Include all requisite environment package targets for this bench
+include $(PROJ_VIP_HOME)/environment_packages/axi_env/Makefile
+
+# Include tests package importing
+include $(PROJ_PB_HOME)/tb/tests/Makefile
+
+comp_axi_dut:
+	$(COMP_HDL) +incdir+ $(PROJ_PB_HOME)/rtl $(PROJ_PB_HOME)/rtl/axi_mem.sv
+
+comp_test_bench:
+	$(COMP_HDL) +incdir+ $(PROJ_PB_HOME)/tb/testbenches $(PROJ_PB_HOME)/tb/testbenches/hdl_top.sv $(PROJ_PB_HOME)/tb/testbenches/hvl_top.sv
+
+comp_opt: comp_axi_dut comp_axi_pkg comp_env_pkg comp_test_pkg comp_test_bench
+	COMP_OPT hdl_top hvl_top -o hvl_top_opt
+
+qrun: comp_axi_dut comp_axi_pkg comp_env_pkg comp_test_pkg comp_test_bench
+	qrun -64 \
+	-sv_seed $(SV_SEED) \
+	-onfinish stop \
+	-classdebug \
+	-uvmcontrol=all \
+	-msgmode both -l run.log -f filelist.f \
+	-do process.do
+	+UVM_TESTNAME=$(UVM_TEST) -debug,livesim -qwavedb=+signal+memory+transaction=1024+report+parameter+class+assertion+uvm_schematic+msg+classmemory=1024+statictaskfunc \
+	-top hdl_top
+	-top hvl_top

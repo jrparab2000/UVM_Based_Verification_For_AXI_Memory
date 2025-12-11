@@ -1,4 +1,6 @@
-// import axi_if_pkg::*;
+import uvm_pkg::*;
+import axi_pkg_hdl::*;
+`include "src/axi_typedef.svh"
 
 interface axi_driver_bfm( axi_if bus);
 

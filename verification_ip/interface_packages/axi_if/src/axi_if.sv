@@ -1,47 +1,59 @@
-interface axi_if( input logic clk, input logic rstn);
+interface axi_if(
+                    clk, rstn, 
+                    awvalid, awready, awid, awlen, awsize, awaddr, awburst, 
+                    wvalid, wready, wid, wdata, wstrb, wlast,
+                    bready, bvalid, bid, bresp,
+                    arready, arid, araddr, arlen, arsize, arburst, arvalid,	
+                    rid,rdata, rstrb, rresp, rlast, rready
+                );
+    ///////////////////Global signals
+
+    input logic clk;
+    input logic rstn;
+
     ///////////////////write address channel
 
-    logic  awvalid;  /// master is sending new address  
-    logic awready;  /// slave is ready to accept request
-    logic [3:0] awid; ////// unique ID for each transaction
-    logic [3:0] awlen; ////// burst length AXI3 : 1 to 16, AXI4 : 1 to 256
-    logic [2:0] awsize; ////unique transaction size : 1,2,4,8,16 ...128 bytes
-    logic [31:0] awaddr; ////write adress of transaction
-    logic [1:0] awburst; ////burst type : fixed , INCR , WRAP
+    output logic  awvalid;  /// master is sending new address  
+    input logic awready;  /// slave is ready to accept request
+    output logic [3:0] awid; ////// unique ID for each transaction
+    output logic [3:0] awlen; ////// burst length AXI3 : 1 to 16, AXI4 : 1 to 256
+    output logic [2:0] awsize; ////unique transaction size : 1,2,4,8,16 ...128 bytes
+    output logic [31:0] awaddr; ////write adress of transaction
+    output logic [1:0] awburst; ////burst type : fixed , INCR , WRAP
 
     /////////////////////write data channel
 
-    logic wvalid; //// master is sending new data
-    logic wready; //// slave is ready to accept new data 
-    logic [3:0] wid; /// unique id for transaction
-    logic [31:0] wdata; //// data 
-    logic [3:0] wstrb; //// lane having valid data
-    logic wlast; //// last transfer in write burst
+    output logic wvalid; //// master is sending new data
+    input logic wready; //// slave is ready to accept new data 
+    output logic [3:0] wid; /// unique id for transaction
+    output logic [31:0] wdata; //// data 
+    output logic [3:0] wstrb; //// lane having valid data
+    output logic wlast; //// last transfer in write burst
 
     ///////////////write response channel
 
-    logic bready; ///master is ready to accept response
-    logic bvalid; //// slave has valid response
-    logic [3:0] bid; ////unique id for transaction
-    logic [1:0] bresp; /// status of write transaction 
+    output logic bready; ///master is ready to accept response
+    input logic bvalid; //// slave has valid response
+    input logic [3:0] bid; ////unique id for transaction
+    input logic [1:0] bresp; /// status of write transaction 
 
     ////////////// read address channel
 
-    logic	arready;  //read address ready signal from slave
-    logic [3:0]	arid;      //read address id
-    logic [31:0]	araddr;		//read address signal
-    logic [3:0]	arlen;      //length of the burst
-    logic [2:0]	arsize;		//number of bytes in a transfer
-    logic [1:0]	arburst;	//burst type - fixed, incremental, wrapping
-    logic	arvalid;	//address read valid signal
+    input logic	arready;  //read address ready signal from slave
+    output logic [3:0]	arid;      //read address id
+    output logic [31:0]	araddr;		//read address signal
+    output logic [3:0]	arlen;      //length of the burst
+    output logic [2:0]	arsize;		//number of bytes in a transfer
+    output logic [1:0]	arburst;	//burst type - fixed, incremental, wrapping
+    output logic	arvalid;	//address read valid signal
 
     ///////////////////read data channel
-    logic [3:0] rid;		//read data id
-    logic [31:0]rdata;     //read data from slave
-    logic [3:0] rstrb;
-    logic [1:0] rresp;		//read response signal
-    logic rlast;		//read data last signal
-    logic rvalid;		//read data valid signal
-    logic rready;
+    input logic [3:0] rid;		//read data id
+    input logic [31:0]rdata;     //read data from slave
+    input logic [3:0] rstrb;
+    input logic [1:0] rresp;		//read response signal
+    input logic rlast;		//read data last signal
+    input logic rvalid;		//read data valid signal
+    output logic rready;
 
 endinterface //axi_if( logic logic clk,  logic logic rst)

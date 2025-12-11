@@ -1173,7 +1173,7 @@ module axi_slave(
  end
 endmodule
  
- 
+ /*
 //////////////////////////////////////////////
  
 interface axi_if();
@@ -1237,3 +1237,4 @@ interface axi_if();
  
   
 endinterface 
+*/

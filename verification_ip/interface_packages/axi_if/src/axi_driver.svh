@@ -12,7 +12,7 @@ class axi_driver extends uvm_driver#(.REQ(axi_transaction),.RSP(axi_transaction)
     endfunction //newstring name = "", uvm_component parent = null()
 
     virtual function void build_phase(uvm_phase phase);
-        if(!uvm_config_db#(virtual axi_driver_bfm)::get(this,"", "drive_bfm", bfm))
+        if(!uvm_config_db#(virtual axi_driver_bfm)::get(this,"", "axi_driver_bfm", bfm))
             `uvm_fatal(get_type_name(), "Unable to get the driver bfm...")
         bfm.proxy = this;
     endfunction
@@ -29,7 +29,7 @@ class axi_driver extends uvm_driver#(.REQ(axi_transaction),.RSP(axi_transaction)
     endtask
 
     virtual task write_address(input axi_initiator_struct initator, output axi_responder_struct responder);
-        wait(!bfm.rstn);
+        wait(bfm.rstn);
         @(posedge bfm.clk)
         if(initator.awvaild) begin
         bfm.awvalid <= initator.awvaild;
@@ -88,7 +88,7 @@ class axi_driver extends uvm_driver#(.REQ(axi_transaction),.RSP(axi_transaction)
     endtask
 
     virtual task write_data(input axi_initiator_struct initator, output axi_responder_struct responder);
-        wait(!bfm.rstn);
+        wait(bfm.rstn);
         @(posedge bfm.clk)
         if(initator.wvaild) begin
         bfm.wvaild <= initator.wvaild;
@@ -109,7 +109,7 @@ class axi_driver extends uvm_driver#(.REQ(axi_transaction),.RSP(axi_transaction)
     endtask
 
     virtual task write_response(input axi_initiator_struct initator, output axi_responder_struct responder);
-        wait(!bfm.rstn);
+        wait(bfm.rstn);
         @(posedge bfm.clk)
         if(initator.bready) begin
         bfm.bready <= initator.bready;
@@ -125,7 +125,7 @@ class axi_driver extends uvm_driver#(.REQ(axi_transaction),.RSP(axi_transaction)
     endtask
 
      virtual task read_address(input axi_initiator_struct initator, output axi_responder_struct responder);
-        wait(!bfm.rstn);
+        wait(bfm.rstn);
         @(posedge bfm.clk)
         if(initator.arvaild) begin
         bfm.arvaild <= initator.arvaild;
@@ -152,7 +152,7 @@ class axi_driver extends uvm_driver#(.REQ(axi_transaction),.RSP(axi_transaction)
     
     virtual task read_data(input axi_initiator_struct initator, output axi_responder_struct responder);
         // bit flag  <= 0;
-        wait(!bfm.rstn);
+        wait(bfm.rstn);
         @(posedge bfm.clk)
         if(initator.rready)begin
         bfm.rready <= initator.rready;

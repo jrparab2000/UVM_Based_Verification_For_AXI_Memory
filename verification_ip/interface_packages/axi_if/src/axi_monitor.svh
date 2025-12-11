@@ -10,7 +10,7 @@ class axi_monitor extends uvm_monitor;
     endfunction //new()
 
     virtual function void build_phase(uvm_phase phase);
-        if(!uvm_config_db #(virtual axi_monitor_bfm)::get("this","", "moniter_BFM", vif))
+        if(!uvm_config_db #(virtual axi_monitor_bfm)::get("this","", "axi_monitor_bfm", vif))
         `uvm_fatal(get_type_name(), "Failed to get moniter bfm handle");
         vif.proxy = this;
         ap = uvm_analysis_port::type_id::create("monitor_analysis", this);    

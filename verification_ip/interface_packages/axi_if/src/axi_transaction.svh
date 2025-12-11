@@ -82,7 +82,7 @@ class axi_transaction extends uvm_seq_item;
         super.do_copy(rhs);
         axi_transaction lhs;
         
-        $cast(lhs,rhs);
+        // $cast(lhs,rhs);
 
         awvalid = rhs.awvalid;  
         awready = rhs.awready;  

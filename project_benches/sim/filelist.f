@@ -1,0 +1,9 @@
+$PROJ_PB_HOME/rtl/axi_mem.sv
+$PROJ_VIP_HOME/interface_packages/axi_if/axi_if_pkg.sv
+$PROJ_VIP_HOME/interface_packages/axi_if/src/axi_if.sv
+$PROJ_VIP_HOME/interface_packages/axi_if/src/axi_driver_bfm.sv
+$PROJ_VIP_HOME/interface_packages/axi_if/src/axi_monitor_bfm.sv
+$PROJ_VIP_HOME/environment_packages/axi_env/axi_env_pkg.sv
+$PROJ_PB_HOME/tb/tests/tests_pkg.sv
+$PROJ_PB_HOME/tb/testbenches/hdl_top.sv
+$PROJ_PB_HOME/tb/testbenches/hvl_top.sv
