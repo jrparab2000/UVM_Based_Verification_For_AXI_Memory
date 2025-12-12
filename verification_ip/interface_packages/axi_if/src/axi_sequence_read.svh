@@ -21,10 +21,10 @@ class axi_sequence_read extends uvm_sequence #(.REQ(axi_transaction), .RSP(axi_t
         if(!req.randomize() with {wstrb == 4'hf;}) begin
             `uvm_fatal(get_type_name(),"sequence randomization failed")
         end
-        req.awvaild =  0;
-        req.wvaild = 0;
+        req.awvalid =  0;
+        req.wvalid = 0;
         req.bready = 0;
-        req.arvaild = 1;
+        req.arvalid = 1;
         req.rready = 1;
 
         req.awid = 0;
@@ -41,11 +41,11 @@ class axi_sequence_read extends uvm_sequence #(.REQ(axi_transaction), .RSP(axi_t
         count = req.arlen + 1;  //count = 8
 
         finish_item(req);
-        get__response(rsp);
+        get_response(rsp);
 
         if(rsp.rvalid == 1 || rsp.rlast == 1) begin
             count--;    //count = 7
-            if(rsp.rlast ==)
+            // if(rsp.rlast ==)
         end
         while (count != 0) begin
         req = axi_transaction::type_id::create("req");                  
@@ -54,10 +54,10 @@ class axi_sequence_read extends uvm_sequence #(.REQ(axi_transaction), .RSP(axi_t
             `uvm_fatal(get_type_name(),"sequence randomization failed")
         end
 
-        req.awvaild =  0;
-        req.wvaild = 0;
+        req.awvalid =  0;
+        req.wvalid = 0;
         req.bready = 0;
-        req.arvaild = 1;
+        req.arvalid = 1;
         req.rready = 1;
 
         req.awid = 0;
@@ -69,10 +69,10 @@ class axi_sequence_read extends uvm_sequence #(.REQ(axi_transaction), .RSP(axi_t
         req.arlen = arlen;
         req.arsize = arsize;
         req.araddr = araddr;
-        req.awrburst = arburst;
+        req.arburst = arburst;
 
         finish_item(req);
-        get__response(rsp);
+        get_response(rsp);
 
         if(rsp.rvalid == 1 || rsp.rlast == 1) begin
             count--;    //count = 6,5,4,3,2,1,0
@@ -81,10 +81,10 @@ class axi_sequence_read extends uvm_sequence #(.REQ(axi_transaction), .RSP(axi_t
 
         req = axi_transaction::type_id::create("req");                  
         start_item(req);
-        req.awvaild =  0;
-        req.wvaild = 0;
+        req.awvalid =  0;
+        req.wvalid = 0;
         req.bready = 0;
-        req.arvaild = 0;
+        req.arvalid = 0;
         req.rready = 0;
         
         req.awid = 0;
@@ -100,6 +100,6 @@ class axi_sequence_read extends uvm_sequence #(.REQ(axi_transaction), .RSP(axi_t
 
         
         finish_item(req);
-        get__response(rsp);
+        get_response(rsp);
     endtask //
 endclass //axi_sequence_read extends uvm_sequence #(.REQ(axi_transaction), .RSP(axi_transaction))

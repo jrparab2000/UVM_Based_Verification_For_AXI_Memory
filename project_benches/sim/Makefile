@@ -1,7 +1,7 @@
 export PROJ_HOME  ?= $(PWD)/../..
-export PROJ_VIP_HOME ?= $(UVM_HOME)/verification_ip
+export PROJ_VIP_HOME ?= $(PROJ_HOME)/verification_ip
 export QUESTA_HOME ?= /opt/questasim
-export PROJ_PB_HOME ?= PROJ_HOME/project_benches
+export PROJ_PB_HOME ?= $(PROJ_HOME)/project_benches
 
 export COMP_HDL ?= vlog -sv
 
@@ -20,7 +20,7 @@ include $(PROJ_VIP_HOME)/environment_packages/axi_env/Makefile
 include $(PROJ_PB_HOME)/tb/tests/Makefile
 
 comp_axi_dut:
-	$(COMP_HDL) +incdir+ $(PROJ_PB_HOME)/rtl $(PROJ_PB_HOME)/rtl/axi_mem.sv
+	$(COMP_HDL) +incdir+$(PROJ_PB_HOME)/rtl $(PROJ_PB_HOME)/rtl/axi_mem.sv
 
 comp_test_bench:
 	$(COMP_HDL) +incdir+ $(PROJ_PB_HOME)/tb/testbenches $(PROJ_PB_HOME)/tb/testbenches/hdl_top.sv $(PROJ_PB_HOME)/tb/testbenches/hvl_top.sv

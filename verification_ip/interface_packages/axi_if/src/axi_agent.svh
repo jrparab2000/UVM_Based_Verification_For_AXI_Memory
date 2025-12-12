@@ -25,7 +25,7 @@ class axi_agent extends uvm_agent;
             `uvm_info(get_type_name(), "Agent is working in Passive mode", UVM_DEBUG)
         end
 
-        moniter = axi_monitor::type_id::create("monitor", this);
+        monitor = axi_monitor::type_id::create("monitor", this);
         if(configuration.coverage_enable)
             coverage = axi_coverage::type_id::create("coverage", this);
 
@@ -37,7 +37,7 @@ class axi_agent extends uvm_agent;
             driver.seq_item_port.connect(sequencer.seq_item_export);
         end
         if(configuration.coverage_enable) begin
-            moniter.ap.connect(coverage.analysis_export);
+            monitor.ap.connect(coverage.analysis_export);
         end
     endfunction
 

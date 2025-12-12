@@ -1,5 +1,5 @@
-class axi_sequence_write extends uvm_sequence #(.REQ(axi_sequence), .RSP(axi_sequence));
-    `uvm_object_utils(axi_sequence)
+class axi_sequence_write extends uvm_sequence #(.REQ(axi_transaction), .RSP(axi_transaction));
+    `uvm_object_utils(axi_sequence_write)
 
     axi_transaction req, rsp;
 
@@ -21,10 +21,10 @@ class axi_sequence_write extends uvm_sequence #(.REQ(axi_sequence), .RSP(axi_seq
         if(!req.randomize() with {wstrb == 4'hf;}) begin
             `uvm_fatal(get_type_name(),"sequence randomization failed")
         end
-        req.awvaild =  1;
-        req.wvaild = 1;
+        req.awvalid =  1;
+        req.wvalid = 1;
         req.bready = 0;
-        req.arvaild = 0;
+        req.arvalid = 0;
         req.rready = 0;
 
         req.awid = 0;
@@ -41,7 +41,7 @@ class axi_sequence_write extends uvm_sequence #(.REQ(axi_sequence), .RSP(axi_seq
         count = req.awlen + 1;  //count = 8
 
         finish_item(req);
-        get__response(rsp);
+        get_response(rsp);
 
         if(rsp.awready == 1) begin
             count--;    //count = 7
@@ -53,10 +53,10 @@ class axi_sequence_write extends uvm_sequence #(.REQ(axi_sequence), .RSP(axi_seq
             `uvm_fatal(get_type_name(),"sequence randomization failed")
         end
 
-        req.awvaild =  1;
-        req.wvaild = 1;
+        req.awvalid =  1;
+        req.wvalid = 1;
         req.bready = 0;
-        req.arvaild = 0;
+        req.arvalid = 0;
         req.rready = 0;
 
         req.awid = 0;
@@ -71,7 +71,7 @@ class axi_sequence_write extends uvm_sequence #(.REQ(axi_sequence), .RSP(axi_seq
         req.awburst = awburst;
 
         finish_item(req);
-        get__response(rsp);
+        get_response(rsp);
 
         if(rsp.awready == 1) begin
             count--;    //count = 6,5,4,3,2,1,0
@@ -80,10 +80,10 @@ class axi_sequence_write extends uvm_sequence #(.REQ(axi_sequence), .RSP(axi_seq
 
         req = axi_transaction::type_id::create("req");                  
         start_item(req);
-        req.awvaild =  0;
-        req.wvaild = 0;
+        req.awvalid =  0;
+        req.wvalid = 0;
         req.bready = 1;
-        req.arvaild = 0;
+        req.arvalid = 0;
         req.rready = 0;
         
         req.awid = 0;
@@ -99,14 +99,14 @@ class axi_sequence_write extends uvm_sequence #(.REQ(axi_sequence), .RSP(axi_seq
 
         
         finish_item(req);
-        get__response(rsp);
+        get_response(rsp);
 
         req = axi_transaction::type_id::create("req");                  
         start_item(req);
-        req.awvaild =  0;
-        req.wvaild = 0;
+        req.awvalid =  0;
+        req.wvalid = 0;
         req.bready = 0;
-        req.arvaild = 0;
+        req.arvalid = 0;
         req.rready = 0;
         
         req.awid = 0;
@@ -122,7 +122,7 @@ class axi_sequence_write extends uvm_sequence #(.REQ(axi_sequence), .RSP(axi_seq
 
         
         finish_item(req);
-        get__response(rsp);
+        get_response(rsp);
 
     endtask
 

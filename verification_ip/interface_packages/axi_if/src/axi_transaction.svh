@@ -1,4 +1,4 @@
-class axi_transaction extends uvm_seq_item;
+class axi_transaction extends uvm_sequence_item;
     `uvm_object_utils(axi_transaction)
 
     function new(string name = "");
@@ -49,28 +49,23 @@ class axi_transaction extends uvm_seq_item;
     ///////////////////time data
     time start_time;
     time end_time;
-    int transaction_view_h
+    int transaction_view_h;
 
     constraint c_size{awsize < 3'b101; arsize < 3'b101; awsize > 0; arsize > 0;}  //cannot be more then 4-bytes which is 32-bits
     constraint c_address{awaddr < 2**(8*awsize); araddr < 2**(8*arsize);}  //cannot be more then 4-bytes which is 32-bits
     constraint c_burst{awburst < 2'b11; arburst < 2'b11;}
 
     virtual function string convert2string();
-        string temp = $sformatf("---------------------------------------write address channel-------------------------------------\n
-                                awvalid = %b | awready = %b | awid = %x | awlen = %x | awsize = %x | awaddr = 0x%x | awburst = %x\n
-                                -----------------------------------------write data channel--------------------------------------\n
-                                wvalid = %b | wready = %b | wid = %x | wdata = 0x%x | wstrb = %x | wlast = %b\n
-                                ---------------------------------------write response channel------------------------------------\n
-                                bready = %b | bvalid = %b | bid = %x | bresp = %x
-                                ----------------------------------------read address channel-------------------------------------\n
-                                arready = %b | arid = %x | araddr = 0x%x | arlen = %x | arsize = %x | arburst = %x | arvalid = %b\n
-                                ------------------------------------------read data channel--------------------------------------\n
-                                rid = %b | rdata = 0x%x | rstrb = %x | rresp = %x | rlast = %b | rready = %b\n", 
-                                awvalid, awready, awid, awlen, awsize, awaddr, awburst, 
-                                wvalid, wready, wid, wdata, wstrb, wlast,
-                                bready, bvalid, bid, bresp,
-                                arready, arid, araddr, arlen, arsize, arburst, arvalid,	
-                                rid,rdata, rstrb, rresp, rlast, rready);
+        string temp = $sformatf("---------------------------------------write address channel-------------------------------------\n");
+        temp = $sformatf(temp,"awvalid = %b | awready = %b | awid = %x | awlen = %x | awsize = %x | awaddr = 0x%x | awburst = %x\n",awvalid, awready, awid, awlen, awsize, awaddr, awburst);
+        temp = $sformatf(temp,"-----------------------------------------write data channel--------------------------------------\n");
+        temp = $sformatf(temp,"wvalid = %b | wready = %b | wid = %x | wdata = 0x%x | wstrb = %x | wlast = %b\n",wvalid, wready, wid, wdata, wstrb, wlast);
+        temp = $sformatf(temp,"---------------------------------------write response channel------------------------------------\n");
+        temp = $sformatf(temp,"bready = %b | bvalid = %b | bid = %x | bresp = %x",bready, bvalid, bid, bresp);
+        temp = $sformatf(temp,"----------------------------------------read address channel-------------------------------------\n");
+        temp = $sformatf(temp,"arready = %b | arid = %x | araddr = 0x%x | arlen = %x | arsize = %x | arburst = %x | arvalid = %b\n",arready, arid, araddr, arlen, arsize, arburst, arvalid);
+        temp = $sformatf(temp,"------------------------------------------read data channel--------------------------------------\n");
+        temp = $sformatf(temp,"rid = %b | rdata = 0x%x | rstrb = %x | rresp = %x | rlast = %b | rvalid = %b | rready = %b\n",rid,rdata, rstrb, rresp, rlast, rvalid, rready);
         return temp;
     endfunction
 
@@ -78,55 +73,58 @@ class axi_transaction extends uvm_seq_item;
         $display(convert2string());
     endfunction
 
-    virtual function void do_copy(axi_transaction rhs);
+    virtual function void do_copy(uvm_object rhs);
+        axi_transaction RHS;
         super.do_copy(rhs);
-        axi_transaction lhs;
         
-        // $cast(lhs,rhs);
+        if(!$cast(RHS,rhs)) begin 
+            `uvm_error(get_type_name(), "Cannot copy this data please check")
+            return;
+        end
 
-        awvalid = rhs.awvalid;  
-        awready = rhs.awready;  
-        awid = rhs.awid; 
-        awlen = rhs.awlen; 
-        awsize = rhs.awsize; 
-        awaddr = rhs.awaddr; 
-        awburst = rhs.awburst;
+        awvalid = RHS.awvalid;  
+        awready = RHS.awready;  
+        awid = RHS.awid; 
+        awlen = RHS.awlen; 
+        awsize = RHS.awsize; 
+        awaddr = RHS.awaddr; 
+        awburst = RHS.awburst;
 
-        wvalid = rhs.wvalid; 
-        wready = rhs.wready; 
-        wid = rhs.wid; 
-        wdata = rhs.wdata; 
-        wstrb = rhs.wstrb; 
-        wlast = rhs.wlast;
+        wvalid = RHS.wvalid; 
+        wready = RHS.wready; 
+        wid = RHS.wid; 
+        wdata = RHS.wdata; 
+        wstrb = RHS.wstrb; 
+        wlast = RHS.wlast;
 
-        bready = rhs.bready; 
-        bvalid = rhs.bvalid; 
-        bid = rhs.bid; 
-        bresp = rhs.bresp;
+        bready = RHS.bready; 
+        bvalid = RHS.bvalid; 
+        bid = RHS.bid; 
+        bresp = RHS.bresp;
 
-        arready = rhs.arready;  
-        arid = rhs.arid;      
-        araddr = rhs.araddr;		
-        arlen = rhs.arlen;      
-        arsize = rhs.arsize;		
-        arburst = rhs.arburst;	
-        arvalid = rhs.arvalid;
+        arready = RHS.arready;  
+        arid = RHS.arid;      
+        araddr = RHS.araddr;		
+        arlen = RHS.arlen;      
+        arsize = RHS.arsize;		
+        arburst = RHS.arburst;	
+        arvalid = RHS.arvalid;
 
-        rid = rhs.rid;		
-        rdata = rhs.rdata;
-        rstrb = rhs.rstrb;     
-        rresp = rhs.rresp;		
-        rlast = rhs.rlast;		
-        rvalid = rhs.rvalid;		
-        rready = rhs.rready;
+        rid = RHS.rid;		
+        rdata = RHS.rdata;
+        rstrb = RHS.rstrb;     
+        rresp = RHS.rresp;		
+        rlast = RHS.rlast;		
+        rvalid = RHS.rvalid;		
+        rready = RHS.rready;
     endfunction
 
-    virtual function bit do_compare(axi_transaction rhs, uvm_comparer comparer);
+    virtual function bit do_compare(uvm_object rhs, uvm_comparer comparer);
         bit res;
         axi_transaction RHS;
         if(!$cast(RHS,rhs)) return 0;
 
-        res =   super.do_compare(rhs,comparer) & (rdata == rhs.rdata);
+        res =   super.do_compare(rhs,comparer) & (rdata == RHS.rdata);
         /*
                 // awvalid == rhs.awvalid &  
                 // awready == rhs.awready &  

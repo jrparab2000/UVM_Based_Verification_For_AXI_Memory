@@ -55,7 +55,7 @@ module hdl_top ();
                     wvalid, wready, wid, wdata, wstrb, wlast,
                     bready, bvalid, bid, bresp,
                     arready, arid, araddr, arlen, arsize, arburst, arvalid,	
-                    rid, rdata, rstrb, rresp, rlast, rready
+                    rid, rdata, rstrb, rresp, rlast, rvalid, rready
                 );
     
     axi_driver_bfm bfm_drv(hdl_if);
@@ -67,7 +67,7 @@ module hdl_top ();
         .wvalid(wvalid), .wready(wready), .wid(wid), .wdata(wdata), .wstrb(wstrb), .wlast(wlast),
         .bready(bready), .bvalid(bvalid), .bid(bid), .bresp(bresp),
         .arready(arready), .arid(arid), .araddr(araddr), .arlen(arlen), .arsize(arsize), .arburst(arburst), .arvalid(arvalid),	
-        .rid(rid),.rdata(rdata), .rresp(rresp), .rlast(rlast), .rready(rready)
+        .rid(rid),.rdata(rdata), .rresp(rresp), .rlast(rlast), .rvalid(rvalid), .rready(rready)
     );
 
     initial begin

@@ -4,7 +4,7 @@ interface axi_if(
                     wvalid, wready, wid, wdata, wstrb, wlast,
                     bready, bvalid, bid, bresp,
                     arready, arid, araddr, arlen, arsize, arburst, arvalid,	
-                    rid,rdata, rstrb, rresp, rlast, rready
+                    rid,rdata, rstrb, rresp, rlast, rvalid, rready
                 );
     ///////////////////Global signals
 
