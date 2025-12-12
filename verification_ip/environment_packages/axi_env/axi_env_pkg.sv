@@ -8,5 +8,5 @@ package axi_env_pkg;
     `include "src/axi_scoreboard.svh"
     `include "src/axi_virtual_sequencer.svh"
     `include "src/axi_virtual_sequence.svh"
-    `include "src/environment.svh"
+    `include "src/axi_environment.svh"
 endpackage

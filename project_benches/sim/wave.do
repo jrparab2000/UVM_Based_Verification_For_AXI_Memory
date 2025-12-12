@@ -1,32 +1,32 @@
-add wave -noupdate /hdl_top/hdl_if/clk
-add wave -noupdate /hdl_top/hdl_if/rstn
-add wave -noupdate /hdl_top/hdl_if/awvalid
-add wave -noupdate /hdl_top/hdl_if/awready
-add wave -noupdate /hdl_top/hdl_if/awid
-add wave -noupdate /hdl_top/hdl_if/awlen
-add wave -noupdate /hdl_top/hdl_if/awsize
-add wave -noupdate /hdl_top/hdl_if/awaddr
-add wave -noupdate /hdl_top/hdl_if/awburst
-add wave -noupdate /hdl_top/hdl_if/wvaild
-add wave -noupdate /hdl_top/hdl_if/wready
-add wave -noupdate /hdl_top/hdl_if/wid
-add wave -noupdate /hdl_top/hdl_if/wdata
-add wave -noupdate /hdl_top/hdl_if/wstrb
-add wave -noupdate /hdl_top/hdl_if/wlast
-add wave -noupdate /hdl_top/hdl_if/bready
-add wave -noupdate /hdl_top/hdl_if/bvalid
-add wave -noupdate /hdl_top/hdl_if/bid
-add wave -noupdate /hdl_top/hdl_if/bresp
-add wave -noupdate /hdl_top/hdl_if/arready
-add wave -noupdate /hdl_top/hdl_if/arid
-add wave -noupdate /hdl_top/hdl_if/araddr
-add wave -noupdate /hdl_top/hdl_if/arlen
-add wave -noupdate /hdl_top/hdl_if/arsize
-add wave -noupdate /hdl_top/hdl_if/arburst
-add wave -noupdate /hdl_top/hdl_if/arvalid
-add wave -noupdate /hdl_top/hdl_if/rid
-add wave -noupdate /hdl_top/hdl_if/rdata
-add wave -noupdate /hdl_top/hdl_if/rstrb
-add wave -noupdate /hdl_top/hdl_if/rresp
-add wave -noupdate /hdl_top/hdl_if/rlast
-add wave -noupdate /hdl_top/hdl_if/rready
+add wave /hdl_top/hdl_if/clk
+add wave /hdl_top/hdl_if/rstn
+add wave /hdl_top/hdl_if/awvalid
+add wave /hdl_top/hdl_if/awready
+add wave /hdl_top/hdl_if/awid
+add wave /hdl_top/hdl_if/awlen
+add wave /hdl_top/hdl_if/awsize
+add wave /hdl_top/hdl_if/awaddr
+add wave /hdl_top/hdl_if/awburst
+add wave /hdl_top/hdl_if/wvalid
+add wave /hdl_top/hdl_if/wready
+add wave /hdl_top/hdl_if/wid
+add wave /hdl_top/hdl_if/wdata
+add wave /hdl_top/hdl_if/wstrb
+add wave /hdl_top/hdl_if/wlast
+add wave /hdl_top/hdl_if/bready
+add wave /hdl_top/hdl_if/bvalid
+add wave /hdl_top/hdl_if/bid
+add wave /hdl_top/hdl_if/bresp
+add wave /hdl_top/hdl_if/arready
+add wave /hdl_top/hdl_if/arid
+add wave /hdl_top/hdl_if/araddr
+add wave /hdl_top/hdl_if/arlen
+add wave /hdl_top/hdl_if/arsize
+add wave /hdl_top/hdl_if/arburst
+add wave /hdl_top/hdl_if/arvalid
+add wave /hdl_top/hdl_if/rid
+add wave /hdl_top/hdl_if/rdata
+add wave /hdl_top/hdl_if/rstrb
+add wave /hdl_top/hdl_if/rresp
+add wave /hdl_top/hdl_if/rlast
+add wave /hdl_top/hdl_if/rready

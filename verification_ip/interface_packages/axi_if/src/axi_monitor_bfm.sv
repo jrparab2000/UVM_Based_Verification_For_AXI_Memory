@@ -1,8 +1,8 @@
 import uvm_pkg::*;
 import axi_pkg_hdl::*;
-`include "src/axi_typedef.svh"
+// `include "src/axi_typedef.svh"
 
-interface axi_driver_bfm( axi_if bus);
+interface axi_monitor_bfm( axi_if bus);
 
 
     axi_if_pkg::axi_monitor proxy;
@@ -104,7 +104,7 @@ interface axi_driver_bfm( axi_if bus);
 
     task do_monitor(output axi_monitor_struct monitor);
 
-        monitor.awvalid = awvaild;
+        monitor.awvalid = awvalid;
         monitor.awready = awready;
         monitor.awid = awid;
         monitor.awlen = awlen;
@@ -112,7 +112,7 @@ interface axi_driver_bfm( axi_if bus);
         monitor.awaddr =  awaddr;
         monitor.awburst = awburst;
 
-        monitor.wvaild = wvaild;
+        monitor.wvalid = wvalid;
         monitor.wready = wready;
         monitor.wid  =  wid;
         monitor.wdata = wdata;
@@ -120,7 +120,7 @@ interface axi_driver_bfm( axi_if bus);
         monitor.wlast =  wlast;
 
         monitor.bready = bready;
-        monitor.bvaild = bvalid;
+        monitor.bvalid = bvalid;
         monitor.bid = bid;
         monitor.bresp = bresp;
 
@@ -130,7 +130,7 @@ interface axi_driver_bfm( axi_if bus);
         monitor.arlen = arlen;
         monitor.arsize = arsize;
         monitor.arburst =  arburst;
-        monitor.arvaild = arvaild;
+        monitor.arvalid = arvalid;
 
         monitor.rid = rid;
         monitor.rdata = rdata;

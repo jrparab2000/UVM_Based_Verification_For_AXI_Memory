@@ -1,4 +1,4 @@
-class axi_environment extends uvm_environment;
+class axi_environment extends uvm_env;
     `uvm_component_utils(axi_environment)
 
     axi_agent agent;
@@ -20,6 +20,7 @@ class axi_environment extends uvm_environment;
         end
         vseqr = axi_virtual_sequencer::type_id::create("vseqr",this);
         agent = axi_agent::type_id::create("agent",this);
+        uvm_config_db #(axi_configuration)::set(this,"*","axi_configuration",env_config.axi_if_config);
     endfunction
 
     virtual function void connect_phase(uvm_phase phase);
@@ -27,7 +28,7 @@ class axi_environment extends uvm_environment;
         if(env_config.predict_enable) begin
             agent.ap.connect(predict.analysis_export);
             agent.ap.connect(score.actual);
-            predictor.ap.connect(score.expected);
+            predict.ap.connect(score.predicted);
         end
     endfunction
 

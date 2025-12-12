@@ -13,17 +13,17 @@ module hdl_top ();
     logic  awvalid;  
     logic awready; 
     logic [3:0] awid; 
-    rand logic [3:0] awlen; 
-    rand logic [2:0] awsize; 
-    rand logic [31:0] awaddr; 
-    rand logic [1:0] awburst; 
+    logic [3:0] awlen; 
+    logic [2:0] awsize; 
+    logic [31:0] awaddr; 
+    logic [1:0] awburst; 
 
     /////////////////////write data channel  
     logic wvalid; 
     logic wready; 
     logic [3:0] wid; 
-    rand logic [31:0] wdata; 
-    rand logic [3:0] wstrb; 
+    logic [31:0] wdata; 
+    logic [3:0] wstrb; 
     logic wlast; 
 
     ///////////////write response channel
@@ -35,10 +35,10 @@ module hdl_top ();
     ////////////// read address channel
     logic	arready;  
     logic [3:0]	arid;      
-    rand logic [31:0]	araddr;		
-    rand logic [3:0]	arlen;      
-    rand logic [2:0]	arsize;		
-    rand logic [1:0]	arburst;	
+    logic [31:0]	araddr;		
+    logic [3:0]	arlen;      
+    logic [2:0]	arsize;		
+    logic [1:0]	arburst;	
     logic	arvalid;	
 
     ///////////////////read data channel

@@ -1,6 +1,6 @@
 import uvm_pkg::*;
 import axi_pkg_hdl::*;
-`include "src/axi_typedef.svh"
+// `include "src/axi_typedef.svh"
 
 interface axi_driver_bfm( axi_if bus);
 
@@ -95,7 +95,7 @@ interface axi_driver_bfm( axi_if bus);
             proxy.read_address(initator, responder);
             proxy.read_data(initator, responder);
         join
-        disable channel_driver_fork
+        disable channel_driver_fork;
         // @(posedge clk)
         // awvalid <= req.awvaild;
         // awid <= req.awid;

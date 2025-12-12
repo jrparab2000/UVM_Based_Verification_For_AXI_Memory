@@ -20,25 +20,15 @@ class axi_predictor extends uvm_subscriber #(axi_transaction);
         ap = new("ap",this);
     endfunction
 
-    virtual function void write(axi_transaction t);
-        in = axi_transaction::type_id::create("in");
-        out = axi_transaction::type_id::create("out");
-        in.copy(t);
-        bit flag = axi_mem_predict(in, out.rdata);
-        if (flag) begin
-            ap.write(out);
-        end
-    endfunction
-
     virtual function bit axi_mem_predict(axi_transaction in, output bit [31:0] out);
         bit flag = 0;
         if(in.wvalid && in.wready) begin
             awaddr_predict(in);
             if(awaddr.size() != 0) begin
-                mem[awaddr.pop_front()] == in.wdata[31:24];
-                mem[awaddr.pop_front()+1] == in.wdata[23:16];
-                mem[awaddr.pop_front()+2] == in.wdata[15:8];
-                mem[awaddr.pop_front()+3] == in.wdata[7:0];
+                mem[awaddr.pop_front()] = in.wdata[31:24];
+                mem[awaddr.pop_front()+1] = in.wdata[23:16];
+                mem[awaddr.pop_front()+2] = in.wdata[15:8];
+                mem[awaddr.pop_front()+3] = in.wdata[7:0];
                 flag = 0;
             end
         end
@@ -55,9 +45,20 @@ class axi_predictor extends uvm_subscriber #(axi_transaction);
         return flag;
     endfunction
 
+    virtual function void write(axi_transaction t);
+        bit flag = 0;
+        in = axi_transaction::type_id::create("in");
+        out = axi_transaction::type_id::create("out");
+        in.copy(t);
+        flag = axi_mem_predict(in, out.rdata);
+        if (flag) begin
+            ap.write(out);
+        end
+    endfunction
+
     virtual function void awaddr_predict(axi_transaction in);
         bit [31:0] addr;
-        if((in.awvaild) && (in.awready)) begin
+        if((in.awvalid) && (in.awready)) begin
             if (in.awburst == 0)
                 addr = in.awaddr;
             else if (in.awburst == 1)
@@ -75,14 +76,14 @@ class axi_predictor extends uvm_subscriber #(axi_transaction);
             awaddr.push_back(addr);
             wcount++;
         end
-        else if(!in.awvaild) begin
+        else if(!in.awvalid) begin
             wcount = 0;
         end
     endfunction
 
     virtual function void araddr_predict(axi_transaction in);
         bit [31:0] addr;
-        if((in.arvaild) && (in.arready)) begin
+        if((in.arvalid) && (in.arready)) begin
             if (in.arburst == 0)
                 addr = in.araddr;
             else if (in.arburst == 1)
@@ -100,7 +101,7 @@ class axi_predictor extends uvm_subscriber #(axi_transaction);
             araddr.push_back(addr);
             rcount++;
         end
-        else if(!in.arvaild) begin
+        else if(!in.arvalid) begin
             rcount = 0;
         end
     endfunction

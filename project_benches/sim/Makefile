@@ -23,19 +23,30 @@ comp_axi_dut:
 	$(COMP_HDL) +incdir+$(PROJ_PB_HOME)/rtl $(PROJ_PB_HOME)/rtl/axi_mem.sv
 
 comp_test_bench:
-	$(COMP_HDL) +incdir+ $(PROJ_PB_HOME)/tb/testbenches $(PROJ_PB_HOME)/tb/testbenches/hdl_top.sv $(PROJ_PB_HOME)/tb/testbenches/hvl_top.sv
+	$(COMP_HDL) +incdir+$(PROJ_PB_HOME)/tb/testbenches $(PROJ_PB_HOME)/tb/testbenches/hdl_top.sv $(PROJ_PB_HOME)/tb/testbenches/hvl_top.sv
 
 comp_opt: comp_axi_dut comp_axi_pkg comp_env_pkg comp_test_pkg comp_test_bench
-	COMP_OPT hdl_top hvl_top -o hvl_top_opt
+	$(COMP_OPT) hdl_top hvl_top -o hvl_top_opt
 
 qrun: comp_axi_dut comp_axi_pkg comp_env_pkg comp_test_pkg comp_test_bench
 	qrun -64 \
 	-sv_seed $(SV_SEED) \
+	-gui \
 	-onfinish stop \
 	-classdebug \
 	-uvmcontrol=all \
 	-msgmode both -l run.log -f filelist.f \
-	-do process.do
+	-do process.do \
 	+UVM_TESTNAME=$(UVM_TEST) -debug,livesim -qwavedb=+signal+memory+transaction=1024+report+parameter+class+assertion+uvm_schematic+msg+classmemory=1024+statictaskfunc \
 	-top hdl_top
 	-top hvl_top
+
+clean:
+	rm -rf work
+	rm -rf certe_dump.xml
+	rm -rf design.bin
+	rm -rf qrun.out
+	rm -rf .visualizer
+	rm -rf qwave.db
+	rm -rf run.log
+	rm -rf *.ucdb

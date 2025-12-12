@@ -13,6 +13,5 @@ class axi_env_configuration extends uvm_object;
     function void initialize(bit coverage_enable);
         axi_if_config = axi_configuration::type_id::create("axi_if_config");
         axi_if_config.coverage_enable = coverage_enable;
-        uvm_config_db #(axi_if_config)::set(this,"*","axi_configuration",axi_if_config);
     endfunction
 endclass

@@ -6,7 +6,7 @@ package axi_if_pkg;
     
     export axi_pkg_hdl::*;
 
-    `include "src/axi_typedef.svh"
+    // `include "src/axi_typedef.svh"
     `include "src/axi_transaction.svh"
     `include "src/axi_coverage.svh"
     `include "src/axi_configuration.svh"

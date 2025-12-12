@@ -12,7 +12,7 @@ class axi_scoreboard extends uvm_component;
     endfunction //new()
 
     axi_transaction expected[$];
-    axi_transaction actual[$];
+    axi_transaction orignal[$];
     int missmatch;
     int match;
 
@@ -27,10 +27,10 @@ class axi_scoreboard extends uvm_component;
 
     virtual function void write_actual(axi_transaction t);
         axi_transaction temp;
-        actual.push_back(t);
+        orignal.push_back(t);
         if(expected.size() != 0) begin
             temp = expected.pop_front();
-            if(temp.compare(actual.pop_front())) begin
+            if(temp.compare(orignal.pop_front())) begin
                 match++;
             end
             else begin
