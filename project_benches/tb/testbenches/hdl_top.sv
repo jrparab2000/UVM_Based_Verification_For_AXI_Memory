@@ -89,6 +89,7 @@ module hdl_top ();
     end
 
     initial begin
+        clk = 0;
         forever begin
             #5ns
             clk = ~clk;

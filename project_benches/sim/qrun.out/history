@@ -1,3 +1,0 @@
-- Entry: 1
-  Time: Fri Dec 12 01:14:10 2025
-  Command: qrun -64 -sv_seed 123456789 -gui -onfinish stop -classdebug -uvmcontrol=all -msgmode both -l run.log -f filelist.f -do process.do +UVM_TESTNAME=test_top -debug,livesim -qwavedb=+signal+memory+transaction=1024+report+parameter+class+assertion+uvm_schematic+msg+classmemory=1024+statictaskfunc -top hdl_top 

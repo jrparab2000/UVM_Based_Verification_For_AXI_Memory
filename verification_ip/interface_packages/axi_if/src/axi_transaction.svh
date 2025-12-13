@@ -56,16 +56,16 @@ class axi_transaction extends uvm_sequence_item;
     constraint c_burst{awburst < 2'b11; arburst < 2'b11;}
 
     virtual function string convert2string();
-        string temp = $sformatf("---------------------------------------write address channel-------------------------------------\n");
-        temp = $sformatf(temp,"awvalid = %b | awready = %b | awid = %x | awlen = %x | awsize = %x | awaddr = 0x%x | awburst = %x\n",awvalid, awready, awid, awlen, awsize, awaddr, awburst);
-        temp = $sformatf(temp,"-----------------------------------------write data channel--------------------------------------\n");
-        temp = $sformatf(temp,"wvalid = %b | wready = %b | wid = %x | wdata = 0x%x | wstrb = %x | wlast = %b\n",wvalid, wready, wid, wdata, wstrb, wlast);
-        temp = $sformatf(temp,"---------------------------------------write response channel------------------------------------\n");
-        temp = $sformatf(temp,"bready = %b | bvalid = %b | bid = %x | bresp = %x",bready, bvalid, bid, bresp);
-        temp = $sformatf(temp,"----------------------------------------read address channel-------------------------------------\n");
-        temp = $sformatf(temp,"arready = %b | arid = %x | araddr = 0x%x | arlen = %x | arsize = %x | arburst = %x | arvalid = %b\n",arready, arid, araddr, arlen, arsize, arburst, arvalid);
-        temp = $sformatf(temp,"------------------------------------------read data channel--------------------------------------\n");
-        temp = $sformatf(temp,"rid = %b | rdata = 0x%x | rstrb = %x | rresp = %x | rlast = %b | rvalid = %b | rready = %b\n",rid,rdata, rstrb, rresp, rlast, rvalid, rready);
+        string temp = $sformatf("\n---------------------------------------write address channel-------------------------------------\n");
+        temp = {temp, $sformatf("awvalid = %b | awready = %b | awid = %x | awlen = %x | awsize = %x | awaddr = 0x%x | awburst = %x\n",awvalid, awready, awid, awlen, awsize, awaddr, awburst)};
+        temp = {temp, $sformatf("-----------------------------------------write data channel--------------------------------------\n")};
+        temp = {temp, $sformatf("wvalid = %b | wready = %b | wid = %x | wdata = 0x%x | wstrb = %x | wlast = %b\n",wvalid, wready, wid, wdata, wstrb, wlast)};
+        temp = {temp, $sformatf("---------------------------------------write response channel------------------------------------\n")};
+        temp = {temp, $sformatf("bready = %b | bvalid = %b | bid = %x | bresp = %x\n",bready, bvalid, bid, bresp)};
+        temp = {temp, $sformatf("----------------------------------------read address channel-------------------------------------\n")};
+        temp = {temp, $sformatf("arready = %b | arid = %x | araddr = 0x%x | arlen = %x | arsize = %x | arburst = %x | arvalid = %b\n",arready, arid, araddr, arlen, arsize, arburst, arvalid)};
+        temp = {temp, $sformatf("------------------------------------------read data channel--------------------------------------\n")};
+        temp = {temp, $sformatf("rid = %b | rdata = 0x%x | rstrb = %x | rresp = %x | rlast = %b | rvalid = %b | rready = %b\n",rid,rdata, rstrb, rresp, rlast, rvalid, rready)};
         return temp;
     endfunction
 

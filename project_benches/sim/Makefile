@@ -9,6 +9,7 @@ COMP_OPT ?= vopt +acc
 
 SV_SEED ?= 123456789
 UVM_TEST ?= test_top
+VERBOSITY ?= UVM_FULL
 
 # Include all requisite interface package targets for this bench
 include $(PROJ_VIP_HOME)/interface_packages/axi_if/Makefile
@@ -28,6 +29,7 @@ comp_test_bench:
 comp_opt: comp_axi_dut comp_axi_pkg comp_env_pkg comp_test_pkg comp_test_bench
 	$(COMP_OPT) hdl_top hvl_top -o hvl_top_opt
 
+# -qwavedb=+signal+memory+transaction=1024+report+parameter+class+assertion+uvm_schematic+msg+classmemory=1024+statictaskfunc 
 qrun: comp_axi_dut comp_axi_pkg comp_env_pkg comp_test_pkg comp_test_bench
 	qrun -64 \
 	-sv_seed $(SV_SEED) \
@@ -37,8 +39,9 @@ qrun: comp_axi_dut comp_axi_pkg comp_env_pkg comp_test_pkg comp_test_bench
 	-uvmcontrol=all \
 	-msgmode both -l run.log -f filelist.f \
 	-do process.do \
-	+UVM_TESTNAME=$(UVM_TEST) -debug,livesim -qwavedb=+signal+memory+transaction=1024+report+parameter+class+assertion+uvm_schematic+msg+classmemory=1024+statictaskfunc \
-	-top hdl_top
+	+UVM_TESTNAME=$(UVM_TEST) -debug,livesim \
+	+UVM_VERBOSITY=$(VERBOSITY) \
+	-top hdl_top \
 	-top hvl_top
 
 clean:

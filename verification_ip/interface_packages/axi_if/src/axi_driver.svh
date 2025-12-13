@@ -39,7 +39,7 @@ class axi_driver extends uvm_driver#(.REQ(axi_transaction),.RSP(axi_transaction)
         bfm.awsize <= initator.awsize;
         bfm.awaddr <=  initator.awaddr;
         bfm.awburst <= initator.awburst;
-        responder.awready <= bfm.awready;
+        responder.awready = bfm.awready;
         end
         else begin
             bfm.awvalid <= 0;
@@ -97,14 +97,14 @@ class axi_driver extends uvm_driver#(.REQ(axi_transaction),.RSP(axi_transaction)
         bfm.wdata <= initator.wdata;
         bfm.wstrb <= initator.wstrb;
         bfm.wlast <=  initator.wlast;
-        responder.wready <= bfm.wready;
+        responder.wready = bfm.wready;
         end
         else begin
             bfm.wvalid <= 0;
             bfm.wid  <=  0;
             bfm.wdata <= 0;
             bfm.wstrb <= 0;
-            bfm.wlast <=  0;
+            bfm.wlast <= initator.wlast;
         end
     endtask
 
@@ -114,9 +114,9 @@ class axi_driver extends uvm_driver#(.REQ(axi_transaction),.RSP(axi_transaction)
         if(initator.bready) begin
         bfm.bready <= initator.bready;
         wait(initator.bready && bfm.bvalid);
-        responder.bid <= bfm.bid;
-        responder.bresp <= bfm.bresp;
-        responder.bvalid <= bfm.bvalid;
+        responder.bid = bfm.bid;
+        responder.bresp = bfm.bresp;
+        responder.bvalid = bfm.bvalid;
         end
         else begin
             bfm.bready <= 0;
@@ -135,7 +135,7 @@ class axi_driver extends uvm_driver#(.REQ(axi_transaction),.RSP(axi_transaction)
         bfm.arlen <= initator.arlen;
         bfm.arsize <= initator.arsize;
         bfm.arburst <=  initator.arburst;
-        responder.arready <= bfm.arready;
+        responder.arready = bfm.arready;
         end
         else begin
             bfm.arvalid <= 0;
@@ -157,11 +157,11 @@ class axi_driver extends uvm_driver#(.REQ(axi_transaction),.RSP(axi_transaction)
         if(initator.rready)begin
         bfm.rready <= initator.rready;
         wait(initator.rready && (bfm.rvalid || bfm.rlast));
-        responder.rid <= bfm.rid;
-        responder.rdata <= bfm.rdata;
-        responder.rstrb <= bfm.rstrb;
-        responder.rresp <= bfm.rresp;
-        responder.rvalid <= bfm.rvalid;
+        responder.rid = bfm.rid;
+        responder.rdata = bfm.rdata;
+        responder.rstrb = bfm.rstrb;
+        responder.rresp = bfm.rresp;
+        responder.rvalid = bfm.rvalid;
         end
         else begin
             bfm.rready <= 0;
