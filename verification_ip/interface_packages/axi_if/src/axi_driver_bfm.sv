@@ -94,7 +94,8 @@ interface axi_driver_bfm( axi_if bus);
             proxy.write_response(initator, responder);
             proxy.read_address(initator, responder);
             proxy.read_data(initator, responder);
-        join
+            proxy.null_channel(initator, responder);
+        join_any
         disable channel_driver_fork;
         // @(posedge clk)
         // awvalid <= req.awvaild;

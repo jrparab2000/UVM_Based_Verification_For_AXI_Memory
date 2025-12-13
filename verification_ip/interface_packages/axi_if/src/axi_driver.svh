@@ -31,7 +31,7 @@ class axi_driver extends uvm_driver#(.REQ(axi_transaction),.RSP(axi_transaction)
     virtual task write_address(input axi_initiator_struct initator, output axi_responder_struct responder);
         wait(bfm.rstn);
         @(posedge bfm.clk)
-        if(initator.awvalid) begin
+        // if(initator.awvalid) begin
         bfm.awvalid <= initator.awvalid;
         wait(initator.awvalid && bfm.awready);
         bfm.awid <= initator.awid;
@@ -40,17 +40,17 @@ class axi_driver extends uvm_driver#(.REQ(axi_transaction),.RSP(axi_transaction)
         bfm.awaddr <=  initator.awaddr;
         bfm.awburst <= initator.awburst;
         responder.awready = bfm.awready;
-        end
-        else begin
-            bfm.awvalid <= 0;
-            // wait(initator.awvalid && bfm.awready);
-            bfm.awid <= 0;
-            bfm.awlen <= 0;
-            bfm.awsize <= 0;
-            bfm.awaddr <=  0;
-            bfm.awburst <= 0;
-            // responder.awready <= 0;
-        end
+        // end
+        // else begin
+        //     bfm.awvalid <= 0;
+        //     // wait(initator.awvalid && bfm.awready);
+        //     bfm.awid <= 0;
+        //     bfm.awlen <= 0;
+        //     bfm.awsize <= 0;
+        //     bfm.awaddr <=  0;
+        //     bfm.awburst <= 0;
+        //     // responder.awready <= 0;
+        // end
         // if(initator.awvalid && initator.wvalid) begin
         //     wait(bfm.wready == 0);
         //     bfm.awvalid <= initator.awvalid;
@@ -90,44 +90,44 @@ class axi_driver extends uvm_driver#(.REQ(axi_transaction),.RSP(axi_transaction)
     virtual task write_data(input axi_initiator_struct initator, output axi_responder_struct responder);
         wait(bfm.rstn);
         @(posedge bfm.clk)
-        if(initator.wvalid) begin
+        // if(initator.wvalid) begin
         bfm.wvalid <= initator.wvalid;
+        bfm.wlast <=  initator.wlast;
         wait(initator.wvalid && bfm.wready);
         bfm.wid  <=  initator.wid;
         bfm.wdata <= initator.wdata;
         bfm.wstrb <= initator.wstrb;
-        bfm.wlast <=  initator.wlast;
         responder.wready = bfm.wready;
-        end
-        else begin
-            bfm.wvalid <= 0;
-            bfm.wid  <=  0;
-            bfm.wdata <= 0;
-            bfm.wstrb <= 0;
-            bfm.wlast <= initator.wlast;
-        end
+        // end
+        // else begin
+        //     bfm.wvalid <= 0;
+        //     bfm.wid  <=  0;
+        //     bfm.wdata <= 0;
+        //     bfm.wstrb <= 0;
+        //     bfm.wlast <= initator.wlast;
+        // end
     endtask
 
     virtual task write_response(input axi_initiator_struct initator, output axi_responder_struct responder);
         wait(bfm.rstn);
         @(posedge bfm.clk)
-        if(initator.bready) begin
+        // if(initator.bready) begin
         bfm.bready <= initator.bready;
         wait(initator.bready && bfm.bvalid);
         responder.bid = bfm.bid;
         responder.bresp = bfm.bresp;
         responder.bvalid = bfm.bvalid;
-        end
-        else begin
-            bfm.bready <= 0;
-        // wait(initator.bready && bfm.bvalid);
-        end
+        // end
+        // else begin
+        //     bfm.bready <= 0;
+        // // wait(initator.bready && bfm.bvalid);
+        // end
     endtask
 
      virtual task read_address(input axi_initiator_struct initator, output axi_responder_struct responder);
         wait(bfm.rstn);
         @(posedge bfm.clk)
-        if(initator.arvalid) begin
+        // if(initator.arvalid) begin
         bfm.arvalid <= initator.arvalid;
         wait(initator.arvalid && bfm.arready);
         bfm.arid <= initator.arid;
@@ -136,17 +136,17 @@ class axi_driver extends uvm_driver#(.REQ(axi_transaction),.RSP(axi_transaction)
         bfm.arsize <= initator.arsize;
         bfm.arburst <=  initator.arburst;
         responder.arready = bfm.arready;
-        end
-        else begin
-            bfm.arvalid <= 0;
-            // wait(initator.arvalid && bfm.arready);
-            bfm.arid <= 0;
-            bfm.araddr <= 0;
-            bfm.arlen <= 0;
-            bfm.arsize <= 0;
-            bfm.arburst <=  0;
-            // responder.arready <= 0;
-        end
+        // end
+        // else begin
+        //     bfm.arvalid <= 0;
+        //     // wait(initator.arvalid && bfm.arready);
+        //     bfm.arid <= 0;
+        //     bfm.araddr <= 0;
+        //     bfm.arlen <= 0;
+        //     bfm.arsize <= 0;
+        //     bfm.arburst <=  0;
+        //     // responder.arready <= 0;
+        // end
     endtask
 
     
@@ -154,24 +154,24 @@ class axi_driver extends uvm_driver#(.REQ(axi_transaction),.RSP(axi_transaction)
         // bit flag  <= 0;
         wait(bfm.rstn);
         @(posedge bfm.clk)
-        if(initator.rready)begin
         bfm.rready <= initator.rready;
+        // if(initator.rready)begin
         wait(initator.rready && (bfm.rvalid || bfm.rlast));
         responder.rid = bfm.rid;
         responder.rdata = bfm.rdata;
         responder.rstrb = bfm.rstrb;
         responder.rresp = bfm.rresp;
         responder.rvalid = bfm.rvalid;
-        end
-        else begin
-            bfm.rready <= 0;
-            // wait(initator.rready && (bfm.rvalid || bfm.rlast));
-            // responder.rid <= 0;
-            // responder.rdata <= 0;
-            // responder.rstrb <= 0;
-            // responder.rresp <= 0;
-            // responder.rvalid <= 0;
-        end
+        // end
+        // else begin
+        //     bfm.rready <= 0;
+        //     // wait(initator.rready && (bfm.rvalid || bfm.rlast));
+        //     // responder.rid <= 0;
+        //     // responder.rdata <= 0;
+        //     // responder.rstrb <= 0;
+        //     // responder.rresp <= 0;
+        //     // responder.rvalid <= 0;
+        // end
         // if (initator.arvalid) begin
         //     bfm.arid <= initator.arid;
         //     bfm.araddr <= initator.araddr;
@@ -195,4 +195,18 @@ class axi_driver extends uvm_driver#(.REQ(axi_transaction),.RSP(axi_transaction)
         //     end
         // end
     endtask
+
+    virtual task null_channel (input axi_initiator_struct initator, output axi_responder_struct responder);
+        wait(bfm.rstn);
+        @(posedge bfm.clk)
+        if((!(initator.awvalid))&&(!initator.wvalid)&&(!initator.bready)&&(!initator.arvalid)&&(!initator.rready)) begin
+            bfm.awvalid <= initator.awvalid;
+            bfm.wvalid <= initator.wvalid;
+            bfm.bready <= initator.bready;
+            bfm.arvalid <= initator.arvalid;
+            bfm.rready <= initator.rready;
+        end
+        else
+            wait(0);
+    endtask //
 endclass //axi_driver extends uvm_driver#(.REQ(axi_transaction),.RSP(axi_transaction))
