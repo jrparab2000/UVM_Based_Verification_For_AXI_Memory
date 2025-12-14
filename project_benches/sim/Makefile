@@ -30,7 +30,8 @@ comp_opt: comp_axi_dut comp_axi_pkg comp_env_pkg comp_test_pkg comp_test_bench
 	$(COMP_OPT) hdl_top hvl_top -o hvl_top_opt
 
 # -qwavedb=+signal+memory+transaction=1024+report+parameter+class+assertion+uvm_schematic+msg+classmemory=1024+statictaskfunc 
-qrun: comp_axi_dut comp_axi_pkg comp_env_pkg comp_test_pkg comp_test_bench
+# comp_axi_dut comp_axi_pkg comp_env_pkg comp_test_pkg comp_test_bench
+qrun: 
 	qrun -64 \
 	-sv_seed $(SV_SEED) \
 	-gui \

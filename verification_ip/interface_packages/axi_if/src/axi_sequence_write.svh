@@ -18,7 +18,7 @@ class axi_sequence_write extends uvm_sequence #(.REQ(axi_transaction), .RSP(axi_
 
         req = axi_transaction::type_id::create("req");
         start_item(req);
-        if(!req.randomize() with {wstrb == 4'hf;}) begin
+        if(!req.randomize() with {wstrb == 4'hf;awsize <= 3'b010;awaddr < 128;}) begin
             `uvm_fatal(get_type_name(),"sequence randomization failed")
         end
         req.awvalid =  1;
@@ -63,7 +63,7 @@ class axi_sequence_write extends uvm_sequence #(.REQ(axi_transaction), .RSP(axi_
             req.awburst = 0;
         end
         else begin
-            if(!req.randomize() with {wstrb == 4'hf;}) begin
+            if(!req.randomize() with {wstrb == 4'hf; awsize <= 3'b010; awaddr < 128;}) begin
             `uvm_fatal(get_type_name(),"sequence randomization failed")
             end
             req.awvalid =  1;
@@ -86,6 +86,8 @@ class axi_sequence_write extends uvm_sequence #(.REQ(axi_transaction), .RSP(axi_
         `uvm_info(get_type_name(), req.convert2string(), UVM_FULL)
         finish_item(req);
         get_response(rsp);
+        $display("\n-----------------------got response----------------------------------\n",count);
+        `uvm_info(get_type_name(), rsp.convert2string(), UVM_FULL)
         if (rsp == null)
             `uvm_fatal(get_type_name(), "rsp was not sent")
         

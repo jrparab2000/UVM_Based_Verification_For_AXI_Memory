@@ -30,7 +30,7 @@ class axi_driver extends uvm_driver#(.REQ(axi_transaction),.RSP(axi_transaction)
 
     virtual task write_address(input axi_initiator_struct initator, output axi_responder_struct responder);
         wait(bfm.rstn);
-        @(posedge bfm.clk)
+        // @(posedge bfm.clk)
         // if(initator.awvalid) begin
         bfm.awvalid <= initator.awvalid;
         wait(initator.awvalid && bfm.awready);
@@ -40,6 +40,7 @@ class axi_driver extends uvm_driver#(.REQ(axi_transaction),.RSP(axi_transaction)
         bfm.awaddr <=  initator.awaddr;
         bfm.awburst <= initator.awburst;
         responder.awready = bfm.awready;
+        @(posedge bfm.clk);
         // end
         // else begin
         //     bfm.awvalid <= 0;
@@ -89,7 +90,7 @@ class axi_driver extends uvm_driver#(.REQ(axi_transaction),.RSP(axi_transaction)
 
     virtual task write_data(input axi_initiator_struct initator, output axi_responder_struct responder);
         wait(bfm.rstn);
-        @(posedge bfm.clk)
+        // @(posedge bfm.clk)
         // if(initator.wvalid) begin
         bfm.wvalid <= initator.wvalid;
         bfm.wlast <=  initator.wlast;
@@ -98,6 +99,7 @@ class axi_driver extends uvm_driver#(.REQ(axi_transaction),.RSP(axi_transaction)
         bfm.wdata <= initator.wdata;
         bfm.wstrb <= initator.wstrb;
         responder.wready = bfm.wready;
+        @(posedge bfm.clk);
         // end
         // else begin
         //     bfm.wvalid <= 0;
@@ -110,13 +112,14 @@ class axi_driver extends uvm_driver#(.REQ(axi_transaction),.RSP(axi_transaction)
 
     virtual task write_response(input axi_initiator_struct initator, output axi_responder_struct responder);
         wait(bfm.rstn);
-        @(posedge bfm.clk)
+        
         // if(initator.bready) begin
         bfm.bready <= initator.bready;
         wait(initator.bready && bfm.bvalid);
         responder.bid = bfm.bid;
         responder.bresp = bfm.bresp;
         responder.bvalid = bfm.bvalid;
+        @(posedge bfm.clk);
         // end
         // else begin
         //     bfm.bready <= 0;
