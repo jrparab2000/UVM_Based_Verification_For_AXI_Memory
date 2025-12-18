@@ -18,7 +18,7 @@ class axi_sequence_read extends uvm_sequence #(.REQ(axi_transaction), .RSP(axi_t
 
         req = axi_transaction::type_id::create("req");
         start_item(req);
-        if(!req.randomize() with {wstrb == 4'hf;}) begin
+        if(!req.randomize() with {arsize <= 3'b010;araddr < 128;}) begin
             `uvm_fatal(get_type_name(),"sequence randomization failed")
         end
         req.awvalid =  0;
@@ -43,14 +43,14 @@ class axi_sequence_read extends uvm_sequence #(.REQ(axi_transaction), .RSP(axi_t
         finish_item(req);
         get_response(rsp);
 
-        if(rsp.rvalid == 1 || rsp.rlast == 1) begin
-            count--;    //count = 7
-            // if(rsp.rlast ==)
-        end
-        while (count != 0) begin
+        // if(rsp.rvalid == 1 || rsp.rlast == 1) begin
+        //     count--;    //count = 7
+        //     // if(rsp.rlast ==)
+        // end
+        while (count >= 0) begin
         req = axi_transaction::type_id::create("req");                  
         start_item(req);
-        if(!req.randomize() with {wstrb == 4'hf;}) begin
+        if(!req.randomize() with {arsize <= 3'b010;araddr < 128;}) begin
             `uvm_fatal(get_type_name(),"sequence randomization failed")
         end
 
@@ -78,6 +78,29 @@ class axi_sequence_read extends uvm_sequence #(.REQ(axi_transaction), .RSP(axi_t
             count--;    //count = 6,5,4,3,2,1,0
         end
         end
+
+        req = axi_transaction::type_id::create("req");                  
+        start_item(req);
+        req.awvalid =  0;
+        req.wvalid = 0;
+        req.bready = 0;
+        req.arvalid = 0;
+        req.rready = 0;
+        
+        req.awid = 0;
+        req.wid = 0;
+        req.bid = 0;
+        req.arid = 0;
+        req.rid = 0;
+
+        req.awlen = 0;
+        req.awsize = 0;
+        req.awaddr = 0;
+        req.awburst = 0;
+
+        
+        finish_item(req);
+        get_response(rsp);
 
         req = axi_transaction::type_id::create("req");                  
         start_item(req);

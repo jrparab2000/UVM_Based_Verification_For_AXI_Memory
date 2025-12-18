@@ -8,7 +8,7 @@ export COMP_HDL ?= vlog -sv
 COMP_OPT ?= vopt +acc
 
 SV_SEED ?= 123456789
-UVM_TEST ?= test_top
+UVM_TEST ?= direct_test_seq_wr
 VERBOSITY ?= UVM_FULL
 
 # Include all requisite interface package targets for this bench

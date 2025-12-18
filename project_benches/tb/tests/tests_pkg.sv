@@ -5,4 +5,5 @@ package tests_pkg;
     import axi_env_pkg::*;
 
     `include "src/test_top.svh"
+    `include "src/direct_test_seq_wr.svh"
 endpackage

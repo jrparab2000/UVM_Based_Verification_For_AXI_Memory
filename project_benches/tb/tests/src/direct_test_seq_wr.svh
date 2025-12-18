@@ -1,14 +1,15 @@
-class test_top extends uvm_test;
-    `uvm_component_utils(test_top)
+class direct_test_seq_wr extends uvm_test;
+    `uvm_component_utils(direct_test_seq_wr)
 
     axi_environment environment;
     axi_env_configuration configuration;
-    axi_virtual_sequence vseq;
+    axi_seq_direct_wr seq;
 
     bit coverage_enable = 0;
     bit predict_enable = 0;
-    int reads = 2;
-    int writes = 1;
+    int reads = 0;
+    int writes = 0;
+    int run_pairs = 5;
 
     function new(string name = "", uvm_component parent = null);
         super.new(name,parent);
@@ -16,7 +17,8 @@ class test_top extends uvm_test;
 
     virtual function void build_phase(uvm_phase phase);
         environment = axi_environment::type_id::create("environment",this);
-        vseq = axi_virtual_sequence::type_id::create("vseq");
+        // vseq = axi_virtual_sequence::type_id::create("vseq");
+        seq = axi_seq_direct_wr::type_id::create("seq");
         configuration = axi_env_configuration::type_id::create("configuration");
 
         configuration.predict_enable = predict_enable;
@@ -33,7 +35,10 @@ class test_top extends uvm_test;
 
     task run_phase(uvm_phase phase);
         phase.raise_objection(this, "==========Starting virtual sequence==========");
-        vseq.start(environment.vseqr);
+        repeat(run_pairs) begin
+            seq.start(environment.agent.sequencer);
+            seq = axi_seq_direct_wr::type_id::create("seq");
+        end
         phase.drop_objection(this, "====End of Test====");
     endtask
 endclass //test_top extendsuvm_tests

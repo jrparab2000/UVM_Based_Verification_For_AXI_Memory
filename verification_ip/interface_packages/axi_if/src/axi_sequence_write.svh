@@ -41,20 +41,21 @@ class axi_sequence_write extends uvm_sequence #(.REQ(axi_transaction), .RSP(axi_
         awburst = req.awburst;
 
         count = req.awlen + 1;  //count = 8
+        // count = req.awlen;
 
         `uvm_info(get_type_name(), req.convert2string(), UVM_FULL)
         finish_item(req);
         get_response(rsp);
 
-        if(rsp.wready == 1) begin
-            count--;    //count = 7
-        end
+        // if(rsp.wready == 1) begin
+        //     count--;    //count = 7
+        // end
         while (count >= 0) begin
         req = axi_transaction::type_id::create("req");                  
         start_item(req);
         if(count == 0) begin
-            req.awvalid =  0;
-            req.wvalid = 0;
+            req.awvalid =  1;
+            req.wvalid = 1;
             req.wlast = 1;
             req.bready = 1;
             req.awlen = 0;
@@ -86,7 +87,7 @@ class axi_sequence_write extends uvm_sequence #(.REQ(axi_transaction), .RSP(axi_
         `uvm_info(get_type_name(), req.convert2string(), UVM_FULL)
         finish_item(req);
         get_response(rsp);
-        $display("\n-----------------------got response----------------------------------\n",count);
+        // $display("\n-----------------------got response----------------------------------\n",count);
         `uvm_info(get_type_name(), rsp.convert2string(), UVM_FULL)
         if (rsp == null)
             `uvm_fatal(get_type_name(), "rsp was not sent")
@@ -96,7 +97,7 @@ class axi_sequence_write extends uvm_sequence #(.REQ(axi_transaction), .RSP(axi_
         
         if(rsp.wready == 1) begin
             count--;    //count = 6,5,4,3,2,1,0
-            $display("\n----------count %d---------------\n",count);
+            // $display("\n----------count %d---------------\n",count);
         end
         end
 
@@ -124,6 +125,56 @@ class axi_sequence_write extends uvm_sequence #(.REQ(axi_transaction), .RSP(axi_
         // `uvm_info(get_type_name(), req.convert2string(), UVM_FULL)
         // finish_item(req);
         // get_response(rsp);
+
+        req = axi_transaction::type_id::create("req");                  
+        start_item(req);
+        req.awvalid =  0;
+        req.wvalid = 0;
+        req.bready = 1;
+        req.arvalid = 0;
+        req.rready = 0;
+        
+        req.awid = 0;
+        req.wid = 0;
+        req.bid = 0;
+        req.arid = 0;
+        req.rid = 0;
+
+        req.wlast = 1;
+
+        req.awlen = 0;
+        req.awsize = 0;
+        req.awaddr = 0;
+        req.awburst = 0;
+
+        `uvm_info(get_type_name(), req.convert2string(), UVM_FULL)
+        finish_item(req);
+        get_response(rsp);
+
+        req = axi_transaction::type_id::create("req");                  
+        start_item(req);
+        req.awvalid =  0;
+        req.wvalid = 0;
+        req.bready = 0;
+        req.arvalid = 0;
+        req.rready = 0;
+        
+        req.awid = 0;
+        req.wid = 0;
+        req.bid = 0;
+        req.arid = 0;
+        req.rid = 0;
+
+        req.wlast = 0;
+
+        req.awlen = 0;
+        req.awsize = 0;
+        req.awaddr = 0;
+        req.awburst = 0;
+
+        `uvm_info(get_type_name(), req.convert2string(), UVM_FULL)
+        finish_item(req);
+        get_response(rsp);
 
         req = axi_transaction::type_id::create("req");                  
         start_item(req);

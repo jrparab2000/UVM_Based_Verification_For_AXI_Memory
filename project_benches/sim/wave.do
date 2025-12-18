@@ -29,4 +29,5 @@ add wave /hdl_top/hdl_if/rdata
 add wave /hdl_top/hdl_if/rstrb
 add wave /hdl_top/hdl_if/rresp
 add wave /hdl_top/hdl_if/rlast
+add wave /hdl_top/hdl_if/rvalid
 add wave /hdl_top/hdl_if/rready
