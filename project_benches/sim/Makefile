@@ -8,8 +8,15 @@ export COMP_HDL ?= vlog -sv
 COMP_OPT ?= vopt +acc
 
 SV_SEED ?= 123456789
-UVM_TEST ?= direct_test_seq_wr
-VERBOSITY ?= UVM_FULL
+UVM_TEST ?= test_top
+VERBOSITY ?= UVM_NONE
+LOGS ?= run
+READS ?= 5
+WRITES ?= 5
+COV_EN ?= 0
+PRE_EN ?= 0
+RUNS ?= 10
+
 
 # Include all requisite interface package targets for this bench
 include $(PROJ_VIP_HOME)/interface_packages/axi_if/Makefile
@@ -38,10 +45,17 @@ qrun:
 	-onfinish stop \
 	-classdebug \
 	-uvmcontrol=all \
-	-msgmode both -l run.log -f filelist.f \
+	-msgmode both \
+	-l $(LOGS).log \
+	-f filelist.f \
 	-do process.do \
 	+UVM_TESTNAME=$(UVM_TEST) -debug,livesim \
 	+UVM_VERBOSITY=$(VERBOSITY) \
+	+READS=$(READS) \
+	+WRITES=$(WRITES) \
+	+COV_EN=$(COV_EN) \
+	+PRE_EN=$(PRE_EN) \
+	+RUNS=$(RUNS) \
 	-top hdl_top \
 	-top hvl_top
 
@@ -52,5 +66,5 @@ clean:
 	rm -rf qrun.out
 	rm -rf .visualizer
 	rm -rf qwave.db
-	rm -rf run.log
+	rm -rf $(LOGS).log
 	rm -rf *.ucdb

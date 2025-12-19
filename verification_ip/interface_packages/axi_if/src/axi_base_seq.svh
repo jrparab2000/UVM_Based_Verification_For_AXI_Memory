@@ -99,6 +99,7 @@ class axi_base_seq extends uvm_sequence #(.REQ(axi_transaction), .RSP(axi_transa
             req.awsize = 0;
             req.awaddr = 0;
             req.awburst = 0;
+            req.wstrb = 1;
         end
         else begin
             if(!req.randomize() with {awsize <= 3'b010; awaddr < 128;}) begin
@@ -221,6 +222,7 @@ class axi_base_seq extends uvm_sequence #(.REQ(axi_transaction), .RSP(axi_transa
     endtask
 
     virtual task all_reads(input logic [3:0] len, input logic [2:0] size, input logic [31:0] addr, input logic [1:0] burst);
+        logic [4:0] count = len +2;
         forever begin
             req = axi_transaction::type_id::create("req");                  
             start_item(req);
@@ -259,9 +261,15 @@ class axi_base_seq extends uvm_sequence #(.REQ(axi_transaction), .RSP(axi_transa
             if(rsp.rlast == 1) begin
                 break;    //count = 6,5,4,3,2,1,0
             end
+            if(count == 0) begin
+                `uvm_warning(get_type_name(),{"For this we never received rlast bug in DUT.\n",req.convert2string()})
+                break;
+            end
+            if(rsp.rvalid == 1) begin
+                if(count != 0)
+                    count--;
+            end
         end
     endtask 
 
-    virtual task body();
-    endtask
 endclass //axi_base_seq extends superClass
