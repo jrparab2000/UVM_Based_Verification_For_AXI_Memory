@@ -11,6 +11,7 @@ package axi_if_pkg;
     `include "src/axi_coverage.svh"
     `include "src/axi_configuration.svh"
     `include "src/axi_sequencer.svh"
+    `include "src/axi_base_seq.svh"
     `include "src/axi_sequence_read.svh"
     `include "src/axi_sequence_write.svh"
     `include "src/axi_seq_direct_wr.svh"

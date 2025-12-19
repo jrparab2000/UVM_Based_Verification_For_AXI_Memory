@@ -7,8 +7,8 @@ class test_top extends uvm_test;
 
     bit coverage_enable = 0;
     bit predict_enable = 0;
-    int reads = 2;
-    int writes = 1;
+    int reads = 5;
+    int writes = 5;
 
     function new(string name = "", uvm_component parent = null);
         super.new(name,parent);

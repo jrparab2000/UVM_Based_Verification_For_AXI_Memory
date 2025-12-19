@@ -51,9 +51,12 @@ class axi_transaction extends uvm_sequence_item;
     time end_time;
     int transaction_view_h;
 
-    constraint c_size{awsize < 3'b101; arsize < 3'b101; awsize > 0; arsize > 0;}  //cannot be more then 4-bytes which is 32-bits
-    constraint c_address{awaddr < 2**(8*awsize); araddr < 2**(8*arsize);}  //cannot be more then 4-bytes which is 32-bits
+    constraint c_size{awsize <= 3'b010; arsize <= 3'b010; }//awsize > 0; arsize > 0;}  //cannot be more then 4-bytes which is 32-bits
+    // constraint c_address{awaddr < 2**(8*awsize); araddr < 2**(8*arsize);}  //cannot be more then 4-bytes which is 32-bits
     constraint c_burst{awburst < 2'b11; arburst < 2'b11;}
+    constraint c_awlen{awburst == 2'b10 -> awlen inside {4'b0001, 4'b0011, 4'b0111, 4'b1111}; solve awburst before awlen;}
+    constraint c_arlen{arburst == 2'b10 -> arlen inside {4'b0001, 4'b0011, 4'b0111, 4'b1111}; solve arburst before arlen;}
+    constraint c_strb{wstrb > 0;}
 
     virtual function string convert2string();
         string temp = $sformatf("\n---------------------------------------write address channel-------------------------------------\n");

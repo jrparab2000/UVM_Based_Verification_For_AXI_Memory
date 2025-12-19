@@ -9,7 +9,7 @@ class direct_test_seq_wr extends uvm_test;
     bit predict_enable = 0;
     int reads = 0;
     int writes = 0;
-    int run_pairs = 5;
+    int run_pairs = 10;
 
     function new(string name = "", uvm_component parent = null);
         super.new(name,parent);

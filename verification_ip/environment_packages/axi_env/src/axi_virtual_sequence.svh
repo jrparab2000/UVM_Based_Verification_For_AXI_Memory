@@ -27,9 +27,11 @@ class axi_virtual_sequence extends uvm_sequence;
     virtual task body();
         repeat(env_config.writes) begin
             write_seq.start(p_sequencer.axi_seqr);
+            write_seq = axi_sequence_write::type_id::create("write_seq");
         end
         repeat(env_config.reads) begin
             read_seq.start(p_sequencer.axi_seqr);
+            read_seq = axi_sequence_read::type_id::create("read_seq");
         end
     endtask
 
