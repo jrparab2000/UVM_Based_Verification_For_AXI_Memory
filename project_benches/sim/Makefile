@@ -9,12 +9,12 @@ COMP_OPT ?= vopt +acc
 
 SV_SEED ?= 123456789
 UVM_TEST ?= test_top
-VERBOSITY ?= UVM_NONE
+VERBOSITY ?= UVM_HIGH
 LOGS ?= run
 READS ?= 5
 WRITES ?= 5
 COV_EN ?= 1
-PRE_EN ?= 0
+PRE_EN ?= 1
 RUNS ?= 10
 COV_NAME ?= test_top
 
@@ -83,7 +83,7 @@ cli:
 	-top hvl_top
 
 viewcover: mergecover
-	vsim -viewcov $(COV_NAME).ucdb
+	vsim -viewcov final.ucdb
 
 mergecover:
 	vcover merge final.ucdb test_top_$(SV_SEED).ucdb direct_test_seq_wr_$(SV_SEED).ucdb

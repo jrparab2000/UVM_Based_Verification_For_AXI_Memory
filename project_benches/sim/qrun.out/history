@@ -1,0 +1,21 @@
+- Entry: 1
+  Time: Sat Dec 20 14:06:40 2025
+  Command: qrun -64 -sv_seed 123456789 -coverage -onfinish stop -classdebug -uvmcontrol=all -msgmode both -l logs/direct_test_seq_wr.log -f filelist.f -do cli.do +UVM_TESTNAME=direct_test_seq_wr -debug,livesim +UVM_VERBOSITY=UVM_NONE +READS=5 +WRITES=5 +COV_EN=1 +PRE_EN=0 +RUNS=10000 -top hdl_top -top hvl_top 
+- Entry: 2
+  Time: Sat Dec 20 14:09:40 2025
+  Command: qrun -64 -sv_seed 123456789 -coverage -onfinish stop -classdebug -uvmcontrol=all -msgmode both -l logs/test_top.log -f filelist.f -do cli.do +UVM_TESTNAME=test_top -debug,livesim +UVM_VERBOSITY=UVM_NONE +READS=1000 +WRITES=1000 +COV_EN=1 +PRE_EN=0 +RUNS=10 -top hdl_top -top hvl_top 
+- Entry: 3
+  Time: Sat Dec 20 14:27:04 2025
+  Command: qrun -64 -sv_seed 123456789 -coverage -onfinish stop -classdebug -uvmcontrol=all -msgmode both -l logs/test_top.log -f filelist.f -do cli.do +UVM_TESTNAME=test_top -debug,livesim +UVM_VERBOSITY=UVM_NONE +READS=1000 +WRITES=1000 +COV_EN=1 +PRE_EN=1 +RUNS=10 -top hdl_top -top hvl_top 
+- Entry: 4
+  Time: Sat Dec 20 14:28:20 2025
+  Command: qrun -64 -sv_seed 123456789 -coverage -onfinish stop -classdebug -uvmcontrol=all -msgmode both -l logs/test_top.log -f filelist.f -do cli.do +UVM_TESTNAME=test_top -debug,livesim +UVM_VERBOSITY=UVM_NONE +READS=1000 +WRITES=1000 +COV_EN=1 +PRE_EN=1 +RUNS=10 -top hdl_top -top hvl_top 
+- Entry: 5
+  Time: Sat Dec 20 14:29:26 2025
+  Command: qrun -64 -sv_seed 123456789 -coverage -onfinish stop -classdebug -uvmcontrol=all -msgmode both -l logs/test_top.log -f filelist.f -do cli.do +UVM_TESTNAME=test_top -debug,livesim +UVM_VERBOSITY=UVM_NONE +READS=1000 +WRITES=1000 +COV_EN=1 +PRE_EN=1 +RUNS=10 -top hdl_top -top hvl_top 
+- Entry: 6
+  Time: Sat Dec 20 14:37:02 2025
+  Command: qrun -64 -sv_seed 123456789 -coverage -onfinish stop -classdebug -uvmcontrol=all -msgmode both -l logs/test_top.log -f filelist.f -do cli.do +UVM_TESTNAME=test_top -debug,livesim +UVM_VERBOSITY=UVM_HIGH +READS=1000 +WRITES=1000 +COV_EN=1 +PRE_EN=1 +RUNS=10 -top hdl_top -top hvl_top 
+- Entry: 7
+  Time: Sat Dec 20 14:37:51 2025
+  Command: qrun -64 -sv_seed 123456789 -coverage -onfinish stop -classdebug -uvmcontrol=all -msgmode both -l logs/test_top.log -f filelist.f -do cli.do +UVM_TESTNAME=test_top -debug,livesim +UVM_VERBOSITY=UVM_HIGH +READS=1000 +WRITES=1000 +COV_EN=1 +PRE_EN=1 +RUNS=10 -top hdl_top -top hvl_top 
