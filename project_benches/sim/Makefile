@@ -13,9 +13,10 @@ VERBOSITY ?= UVM_NONE
 LOGS ?= run
 READS ?= 5
 WRITES ?= 5
-COV_EN ?= 0
+COV_EN ?= 1
 PRE_EN ?= 0
 RUNS ?= 10
+COV_NAME ?= test_top
 
 
 # Include all requisite interface package targets for this bench
@@ -42,11 +43,12 @@ qrun:
 	qrun -64 \
 	-sv_seed $(SV_SEED) \
 	-gui \
+	-coverage \
 	-onfinish stop \
 	-classdebug \
 	-uvmcontrol=all \
 	-msgmode both \
-	-l $(LOGS).log \
+	-l $(UVM_TEST).log \
 	-f filelist.f \
 	-do process.do \
 	+UVM_TESTNAME=$(UVM_TEST) -debug,livesim \
@@ -59,6 +61,33 @@ qrun:
 	-top hdl_top \
 	-top hvl_top
 
+cli: 
+	qrun -64 \
+	-sv_seed $(SV_SEED) \
+	-coverage \
+	-onfinish stop \
+	-classdebug \
+	-uvmcontrol=all \
+	-msgmode both \
+	-l logs/$(UVM_TEST).log \
+	-f filelist.f \
+	-do cli.do \
+	+UVM_TESTNAME=$(UVM_TEST) -debug,livesim \
+	+UVM_VERBOSITY=$(VERBOSITY) \
+	+READS=$(READS) \
+	+WRITES=$(WRITES) \
+	+COV_EN=$(COV_EN) \
+	+PRE_EN=$(PRE_EN) \
+	+RUNS=$(RUNS) \
+	-top hdl_top \
+	-top hvl_top
+
+viewcover: mergecover
+	vsim -viewcov $(COV_NAME).ucdb
+
+mergecover:
+	vcover merge final.ucdb test_top_$(SV_SEED).ucdb direct_test_seq_wr_$(SV_SEED).ucdb
+
 clean:
 	rm -rf work
 	rm -rf certe_dump.xml
@@ -66,5 +95,7 @@ clean:
 	rm -rf qrun.out
 	rm -rf .visualizer
 	rm -rf qwave.db
-	rm -rf $(LOGS).log
+	rm -rf logs/*.log
 	rm -rf *.ucdb
+	rm -rf transcript
+	rm -rf *.wlf

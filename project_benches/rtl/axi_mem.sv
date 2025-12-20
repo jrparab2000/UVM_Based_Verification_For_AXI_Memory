@@ -53,7 +53,7 @@ module axi_slave(
   /////////////////////////////////////// 
  reg rdfirst;
  bit [31:0] rdnextaddr, rdretaddr;
- reg [3:0] len_count;
+ reg [4:0] len_count;
  reg [7:0] rdboundary;
  
  typedef enum bit [2:0] {ridle = 0, rstart = 1, rwait = 2, rvalids = 3, rerror = 4} rstate_type;

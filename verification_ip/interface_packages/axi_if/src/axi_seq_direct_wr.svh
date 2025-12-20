@@ -30,7 +30,7 @@ class axi_seq_direct_wr extends axi_base_seq;
 
         // ----------------------------------READ-------------------------------------------
 
-        all_reads(awlen, 3'b010, awaddr, awburst);
+        all_reads(awlen, awsize, awaddr, awburst);
 
         blank_transaction();
         blank_transaction();
