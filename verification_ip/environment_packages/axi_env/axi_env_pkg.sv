@@ -4,6 +4,7 @@ package axi_env_pkg;
 
     import axi_if_pkg::*;
     `include "src/axi_env_configuration.svh"
+    `include "src/axi_base_predictor.svh"
     `include "src/axi_predictor.svh"
     `include "src/axi_scoreboard.svh"
     `include "src/axi_virtual_sequencer.svh"
