@@ -1076,7 +1076,7 @@ module axi_slave(
           2'b00: begin
               if(rdfirst == 0) begin
                rdnextaddr  = araddr;
-               rdfirst = 1'b1;
+              //  rdfirst = 1'b1;
                len_count = 0;
                end
              else if (len_count != (arlen + 1))
@@ -1092,7 +1092,7 @@ module axi_slave(
       2'b01: begin
               if(rdfirst == 0) begin
                rdnextaddr  = araddr;
-               rdfirst = 1'b1;
+              //  rdfirst = 1'b1;
                len_count = 0;
                end
              else if (len_count != (arlen + 1))
@@ -1100,14 +1100,14 @@ module axi_slave(
                rdnextaddr = rdretaddr;
                end   
                                
-             rdretaddr = read_data_incr(rdnextaddr, arsize); 
+             read_data_incr(rdnextaddr, arsize); 
              end    
     ///////////////////////end of incr      
     2'b10: begin
                if(rdfirst == 0) 
                begin
                rdnextaddr  = araddr;
-               rdfirst = 1'b1;
+              //  rdfirst = 1'b1;
                len_count = 0;
                end
              else if (len_count != (arlen + 1))
@@ -1115,7 +1115,7 @@ module axi_slave(
                rdnextaddr = rdretaddr;    
                end    
         rdboundary = wrap_boundary(arlen, arsize);
-        rdretaddr  = read_data_wrap(rdnextaddr, arsize, rdboundary);
+        read_data_wrap(rdnextaddr, arsize, rdboundary);
         end
    endcase
       end
@@ -1134,6 +1134,24 @@ module axi_slave(
   
    rwait: begin
       rvalid = 1'b0;
+      unique case(arburst)
+        
+         ////////////////////fixed
+          2'b00: begin
+              read_data_fixed(araddrt, arsize);
+            end
+      //////////////////////end of fixed
+      
+      ////////////////////start of incr
+      2'b01: begin            
+             rdretaddr = read_data_incr(rdnextaddr, arsize); 
+             end    
+    ///////////////////////end of incr      
+    2'b10: begin 
+        rdboundary = wrap_boundary(arlen, arsize);
+        rdretaddr  = read_data_wrap(rdnextaddr, arsize, rdboundary);
+        end
+   endcase
       if(rready == 1'b1)
            rnext_state = rvalids; 
          else
@@ -1149,6 +1167,7 @@ module axi_slave(
        end
        else
          begin
+      rdfirst = 1'b1;
         rnext_state = rstart;
         rlast       = 1'b0;
          end 

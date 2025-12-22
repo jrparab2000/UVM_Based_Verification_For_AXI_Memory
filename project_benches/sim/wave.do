@@ -10,6 +10,7 @@ add wave /hdl_top/hdl_if/awburst
 add wave /hdl_top/hdl_if/wvalid
 add wave /hdl_top/hdl_if/wready
 add wave /hdl_top/hdl_if/wid
+add wave /hdl_top/DUT/nextaddr
 add wave /hdl_top/hdl_if/wdata
 add wave /hdl_top/hdl_if/wstrb
 add wave /hdl_top/hdl_if/wlast
@@ -25,6 +26,8 @@ add wave /hdl_top/hdl_if/arsize
 add wave /hdl_top/hdl_if/arburst
 add wave /hdl_top/hdl_if/arvalid
 add wave /hdl_top/hdl_if/rid
+add wave /hdl_top/DUT/rdfirst
+add wave /hdl_top/DUT/rdnextaddr
 add wave /hdl_top/hdl_if/rdata
 add wave /hdl_top/hdl_if/rstrb
 add wave /hdl_top/hdl_if/rresp

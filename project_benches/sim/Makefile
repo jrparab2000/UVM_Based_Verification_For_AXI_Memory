@@ -48,7 +48,7 @@ qrun:
 	-classdebug \
 	-uvmcontrol=all \
 	-msgmode both \
-	-l $(UVM_TEST).log \
+	-l logs/$(UVM_TEST).log \
 	-f filelist.f \
 	-do process.do \
 	+UVM_TESTNAME=$(UVM_TEST) -debug,livesim \
@@ -96,6 +96,7 @@ clean:
 	rm -rf .visualizer
 	rm -rf qwave.db
 	rm -rf logs/*.log
+	rm -rf *.log
 	rm -rf *.ucdb
 	rm -rf transcript
 	rm -rf *.wlf
