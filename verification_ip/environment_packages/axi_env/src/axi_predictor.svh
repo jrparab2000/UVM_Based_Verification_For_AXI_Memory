@@ -13,7 +13,7 @@ class axi_predictor extends axi_base_predictor;
         in = axi_transaction::type_id::create("in");
         out = axi_transaction::type_id::create("out");
         in.copy(t);
-        `uvm_info(get_type_name(), in.convert2string(),UVM_HIGH);
+        // `uvm_info(get_type_name(), in.convert2string(),UVM_HIGH);
         awaddr_predict(in);
         flag = araddr_predict(in,out.rdata);
         if (flag) begin

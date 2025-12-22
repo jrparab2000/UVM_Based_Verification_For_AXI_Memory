@@ -5,8 +5,6 @@ class axi_base_predictor extends uvm_subscriber #(axi_transaction);
 
     bit [7:0] mem [128] = '{default:12}; 
 
-    // bit [31:0] araddr [$];
-    // bit [31:0] awaddr [$];
     bit [31:0] addr_w;
     bit [31:0] addr_r;
 
@@ -39,6 +37,13 @@ class axi_base_predictor extends uvm_subscriber #(axi_transaction);
     virtual function bit [7:0] cal_boundary(input bit [3:0] len,input bit[2:0] size);
         bit [7:0] boundary;
         boundary = (len+1)*(2**size);
+        // case(len)
+        //   4'b0001: boundary = 2 << size;
+        //   4'b0011: boundary = 4 << size;
+        //   4'b0111: boundary = 8 << size;
+        //   4'b1111: boundary = 16 << size;
+        //   default: boundary = 1;
+        // endcase
         return boundary;           
     endfunction
 
@@ -52,133 +57,37 @@ class axi_base_predictor extends uvm_subscriber #(axi_transaction);
     endfunction
 
     virtual function bit [31:0] write_data (axi_transaction in);
-    bit [31:0] awaddrt = in.awaddr;
-    if(first_write) begin
+    bit [31:0] awaddrt;
+    if(first_write || (in.awburst == 0)) begin
         awaddrt = in.awaddr;
         first_write = 0;
     end
     else begin
         awaddrt = addr_w;
     end
-    case (in.wstrb)
-      4'b0001: begin 
-        mem[awaddrt] = in.wdata[7:0];
-        awaddrt = cal(in.awburst,awaddrt,in.awlen,in.awsize);
-      end
-      
-      4'b0010: begin 
-        mem[awaddrt] = in.wdata[15:8];
-        awaddrt = cal(in.awburst,awaddrt,in.awlen,in.awsize);
-      end
-      
-      4'b0011: begin 
-        mem[awaddrt] = in.wdata[7:0];
-        awaddrt = cal(in.awburst,awaddrt,in.awlen,in.awsize);
-        mem[awaddrt] = in.wdata[15:8];
-        awaddrt = cal(in.awburst,awaddrt,in.awlen,in.awsize);
-      end
-      
-       4'b0100: begin 
-         mem[awaddrt] = in.wdata[23:16];
-         awaddrt = cal(in.awburst,awaddrt,in.awlen,in.awsize);
-      end
-      
-       4'b0101: begin 
-        mem[awaddrt] = in.wdata[7:0];
-        awaddrt = cal(in.awburst,awaddrt,in.awlen,in.awsize);
-        mem[awaddrt] = in.wdata[23:16];
-        awaddrt = cal(in.awburst,awaddrt,in.awlen,in.awsize);
-      end
-      
-      
-       4'b0110: begin 
-        mem[awaddrt] = in.wdata[15:8];
-        awaddrt = cal(in.awburst,awaddrt,in.awlen,in.awsize);
-         mem[awaddrt] = in.wdata[23:16];
-         awaddrt = cal(in.awburst,awaddrt,in.awlen,in.awsize);
-      end
-      
-       4'b0111: begin 
-         mem[awaddrt] = in.wdata[7:0];
-         awaddrt = cal(in.awburst,awaddrt,in.awlen,in.awsize);
-         mem[awaddrt] = in.wdata[15:8];
-         awaddrt = cal(in.awburst,awaddrt,in.awlen,in.awsize);
-         mem[awaddrt] = in.wdata[23:16];
-         awaddrt = cal(in.awburst,awaddrt,in.awlen,in.awsize);
-      end
-      
-       4'b1000: begin 
-         mem[awaddrt] = in.wdata[31:24];
-         awaddrt = cal(in.awburst,awaddrt,in.awlen,in.awsize);
-      end
-      
-       4'b1001: begin 
-         mem[awaddrt] = in.wdata[7:0];
-         awaddrt = cal(in.awburst,awaddrt,in.awlen,in.awsize);
-         mem[awaddrt] = in.wdata[31:24];
-         awaddrt = cal(in.awburst,awaddrt,in.awlen,in.awsize);
-      end
-      
-      
-       4'b1010: begin 
-         mem[awaddrt] = in.wdata[15:8];
-         awaddrt = cal(in.awburst,awaddrt,in.awlen,in.awsize);
-         mem[awaddrt] = in.wdata[31:24];
-         awaddrt = cal(in.awburst,awaddrt,in.awlen,in.awsize);
-      end
-      
-      
-       4'b1011: begin 
-         mem[awaddrt] = in.wdata[7:0];
-         awaddrt = cal(in.awburst,awaddrt,in.awlen,in.awsize);
-         mem[awaddrt] = in.wdata[15:8];
-         awaddrt = cal(in.awburst,awaddrt,in.awlen,in.awsize);
-         mem[awaddrt] = in.wdata[31:24];
-         awaddrt = cal(in.awburst,awaddrt,in.awlen,in.awsize);
-      end
-      
-      4'b1100: begin 
-         mem[awaddrt] = in.wdata[23:16];
-         awaddrt = cal(in.awburst,awaddrt,in.awlen,in.awsize);
-         mem[awaddrt] = in.wdata[31:24];
-         awaddrt = cal(in.awburst,awaddrt,in.awlen,in.awsize);
-      end
- 
-      4'b1101: begin 
-        mem[awaddrt] = in.wdata[7:0];
-        awaddrt = cal(in.awburst,awaddrt,in.awlen,in.awsize);
-        mem[awaddrt] = in.wdata[23:16];
-        awaddrt = cal(in.awburst,awaddrt,in.awlen,in.awsize);
-        mem[awaddrt] = in.wdata[31:24];
-        awaddrt = cal(in.awburst,awaddrt,in.awlen,in.awsize);
-      end
- 
-      4'b1110: begin 
-        mem[awaddrt] = in.wdata[15:8];
-        awaddrt = cal(in.awburst,awaddrt,in.awlen,in.awsize);
-        mem[awaddrt] = in.wdata[23:16];
-        awaddrt = cal(in.awburst,awaddrt,in.awlen,in.awsize);
-        mem[awaddrt] = in.wdata[31:24];
-        awaddrt = cal(in.awburst,awaddrt,in.awlen,in.awsize);
-      end
-      
-      4'b1111: begin
-        mem[awaddrt] = in.wdata[7:0];
-        awaddrt = cal(in.awburst,awaddrt,in.awlen,in.awsize);
-        mem[awaddrt] = in.wdata[15:8];
-        awaddrt = cal(in.awburst,awaddrt,in.awlen,in.awsize);
-        mem[awaddrt] = in.wdata[23:16];
-        awaddrt = cal(in.awburst,awaddrt,in.awlen,in.awsize);
-        mem[awaddrt] = in.wdata[31:24]; 
-        awaddrt = cal(in.awburst,awaddrt,in.awlen,in.awsize);    
-      end
-     endcase
+    
+    if(in.wstrb[0]) begin
+      mem[awaddrt] = in.wdata[7:0];
+      awaddrt = cal(in.awburst,awaddrt,in.awlen,in.awsize);
+    end
+    if(in.wstrb[1])begin
+      mem[awaddrt] = in.wdata[15:8];
+      awaddrt = cal(in.awburst,awaddrt,in.awlen,in.awsize);
+    end
+    if(in.wstrb[2])begin
+      mem[awaddrt] = in.wdata[23:16];
+      awaddrt = cal(in.awburst,awaddrt,in.awlen,in.awsize);
+    end
+    if(in.wstrb[3])begin
+      mem[awaddrt] = in.wdata[31:24];
+      awaddrt = cal(in.awburst,awaddrt,in.awlen,in.awsize);
+    end
      return awaddrt;
   endfunction   
 
   virtual function bit [31:0] read_data (axi_transaction in, output bit [31:0] rdata);
     bit [31:0] araddrt;
-    if(first_read) begin
+    if(first_read||(in.arburst == 0)) begin
         araddrt = in.araddr;
         first_read = 0;
     end
@@ -217,7 +126,7 @@ class axi_base_predictor extends uvm_subscriber #(axi_transaction);
             addr_w = write_data(in);
             wcount++;
         end
-        else if(in.wlast) begin
+        if(in.wlast) begin
             wcount = 0;
             first_write = 1;
         end
@@ -229,7 +138,7 @@ class axi_base_predictor extends uvm_subscriber #(axi_transaction);
             rcount++;
             return 1;
         end
-        else if(in.rlast) begin
+        if(in.rlast) begin
             rcount = 0;
             first_read = 1;
         end
