@@ -1,4 +1,4 @@
-export PROJ_HOME  ?= $(PWD)/../..
+export PROJ_HOME  ?= $(PWD)/../../..
 export PROJ_VIP_HOME ?= $(PROJ_HOME)/verification_ip
 export QUESTA_HOME ?= /opt/questasim
 export PROJ_PB_HOME ?= $(PROJ_HOME)/project_benches
@@ -26,13 +26,13 @@ include $(PROJ_VIP_HOME)/interface_packages/axi_if/Makefile
 include $(PROJ_VIP_HOME)/environment_packages/axi_env/Makefile
 
 # Include tests package importing
-include $(PROJ_PB_HOME)/tb/tests/Makefile
+include $(PROJ_PB_HOME)/axi_mem/tb/tests/Makefile
 
 comp_axi_dut:
-	$(COMP_HDL) +incdir+$(PROJ_PB_HOME)/rtl $(PROJ_PB_HOME)/rtl/axi_mem.sv
+	$(COMP_HDL) +incdir+$(PROJ_PB_HOME)/axi_mem/rtl $(PROJ_PB_HOME)/axi_mem/rtl/axi_mem.sv
 
 comp_test_bench:
-	$(COMP_HDL) +incdir+$(PROJ_PB_HOME)/tb/testbenches $(PROJ_PB_HOME)/tb/testbenches/hdl_top.sv $(PROJ_PB_HOME)/tb/testbenches/hvl_top.sv
+	$(COMP_HDL) +incdir+$(PROJ_PB_HOME)/axi_mem/tb/testbenches $(PROJ_PB_HOME)/axi_mem/tb/testbenches/hdl_top.sv $(PROJ_PB_HOME)/axi_mem/tb/testbenches/hvl_top.sv
 
 comp_opt: comp_axi_dut comp_axi_pkg comp_env_pkg comp_test_pkg comp_test_bench
 	$(COMP_OPT) hdl_top hvl_top -o hvl_top_opt
