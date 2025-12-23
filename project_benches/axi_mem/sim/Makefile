@@ -10,7 +10,7 @@ COMP_OPT ?= vopt +acc
 SV_SEED ?= 123456789
 UVM_TEST ?= test_top
 VERBOSITY ?= UVM_HIGH
-LOGS ?= run
+LOGS ?= $(UVM_TEST)_$(SV_SEED)
 READS ?= 5
 WRITES ?= 5
 COV_EN ?= 1
@@ -39,7 +39,7 @@ comp_opt: comp_axi_dut comp_axi_pkg comp_env_pkg comp_test_pkg comp_test_bench
 
 # -qwavedb=+signal+memory+transaction=1024+report+parameter+class+assertion+uvm_schematic+msg+classmemory=1024+statictaskfunc 
 # comp_axi_dut comp_axi_pkg comp_env_pkg comp_test_pkg comp_test_bench
-qrun: 
+debug: 
 	qrun -64 \
 	-sv_seed $(SV_SEED) \
 	-gui \
@@ -48,7 +48,7 @@ qrun:
 	-classdebug \
 	-uvmcontrol=all \
 	-msgmode both \
-	-l logs/$(UVM_TEST).log \
+	-l logs/$(LOGS).log \
 	-f filelist.f \
 	-do process.do \
 	+UVM_TESTNAME=$(UVM_TEST) -debug,livesim \
@@ -69,7 +69,7 @@ cli:
 	-classdebug \
 	-uvmcontrol=all \
 	-msgmode both \
-	-l logs/$(UVM_TEST).log \
+	-l logs/$(LOGS).log \
 	-f filelist.f \
 	-do cli.do \
 	+UVM_TESTNAME=$(UVM_TEST) -debug,livesim \
@@ -87,6 +87,9 @@ viewcover: mergecover
 
 mergecover:
 	vcover merge final.ucdb test_top_$(SV_SEED).ucdb direct_test_seq_wr_$(SV_SEED).ucdb
+
+regress:
+	./regress.sh
 
 clean:
 	rm -rf work
