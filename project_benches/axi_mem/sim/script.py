@@ -118,7 +118,7 @@ def check_inputs(args):
 #     cwd = os.getcwd()
 
 def command_runner(args):
-    subprocess.run(['make','clean'],capture_output=False)
+    subprocess.run(['make','clean'],capture_output=True)
     for i in range(0,args.loop):
         if args.random:
             runs = random.randint(1,10000)
@@ -153,7 +153,49 @@ def command_runner(args):
                                  text=True
                                  )
         logging.debug(results.stdout)
+        cmd = [
+            'vcover',
+            'report',
+            '-details',
+            '-output',
+            f'ucdb/{test}_{seeds}.txt',
+            f'{test}_{seeds}.ucdb'
+        ]
+        logging.info(f"Ending iteration: {i+1} Extracting coverage: {" ".join(cmd)}")
+        results = subprocess.run(cmd,
+                                 check=True,
+                                 capture_output=True,
+                                 text=True
+                                 )
+        logging.debug(results.stdout)
 
+    cmd = [
+        'make',
+        'mergecover'
+    ]
+    logging.info(f"Merging coverage: {" ".join(cmd)}")
+    results = subprocess.run(cmd,
+                                check=True,
+                                capture_output=True,
+                                text=True
+                                )
+    logging.debug(results.stdout)
+    
+    cmd = [
+        'vcover',
+        'report',
+        '-details',
+        '-output',
+        f'ucdb/final.txt',
+        f'final.ucdb'
+    ]
+    logging.info(f"Extracting final coverage: {" ".join(cmd)}")
+    results = subprocess.run(cmd,
+                                check=True,
+                                capture_output=True,
+                                text=True
+                                )
+    logging.debug(results.stdout)
 
 
 def setup_logging(verbose=False):
@@ -171,6 +213,10 @@ def process_file():
     data_list = []
     input_path = os.getcwd()
     logs = [f for f in os.listdir(input_path) if os.path.isfile(os.path.join(input_path,f))]
+    os.chdir("../ucdb/")
+    input_path_ucdb = os.getcwd()
+    os.chdir("../logs/")
+    # ucdbs = [f for f in os.listdir(input_path) if os.path.isfile(os.path.join(input_path,f))]
     # if not os.path.exists(input_file):
         # logging.error(f"File not found: {input_file}")
         # sys.exit(1)
@@ -186,7 +232,8 @@ def process_file():
             'UVM_INFO': 0,
             'UVM_WARNING': 0,
             'UVM_ERROR' : 0, 
-            'UVM_FATAL': 0
+            'UVM_FATAL': 0,
+            'Coverage' : 0.0
             }
         
         logging.info(f"Processing file: {input_file}")
@@ -216,8 +263,35 @@ def process_file():
                 if result_2:
                     if result_2.group(1) in data.keys():
                         data[result_2.group(1)] = result_2.group(2)
+
+        with open(os.path.join(input_path_ucdb,f'{data["Test"]}_{data["Seed"]}.txt'),'r') as f:
+            content = f.read()
+            cov = re.findall(r'TOTAL\s+COVERGROUP\s+COVERAGE:\s*([\d.]+)%',content)
+            if cov:
+                data["Coverage"] = float(cov[0])
         data_list.append(data)
 
+    data = {'Test' : "Total Coverage",
+            'Seed' : "",
+            'Reads': "",
+            'Writes': "",
+            'Runs' : "",
+            'Total': "",
+            'Matches': "",
+            'Miss-Matches': "",
+            'UVM_INFO': "",
+            'UVM_WARNING': "",
+            'UVM_ERROR' : "", 
+            'UVM_FATAL': "",
+            'Coverage' : 0.0
+            }
+    with open(os.path.join(input_path_ucdb,'final.txt'),'r') as f:
+        content = f.read()
+        cov = re.findall(r'TOTAL\s+COVERGROUP\s+COVERAGE:\s*([\d.]+)%',content)
+        if cov:
+            data["Coverage"] = float(cov[0])
+    data_list.append(data)
+    
     os.chdir("../")
     if not os.path.exists(os.path.join(os.getcwd(),'reports')):
         os.mkdir('reports')

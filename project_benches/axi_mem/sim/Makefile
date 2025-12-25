@@ -86,7 +86,7 @@ viewcover: mergecover
 	vsim -viewcov final.ucdb
 
 mergecover:
-	vcover merge final.ucdb test_top_$(SV_SEED).ucdb direct_test_seq_wr_$(SV_SEED).ucdb
+	vcover merge final.ucdb *.ucdb
 
 regress:
 	./regress.sh
@@ -103,3 +103,4 @@ clean:
 	rm -rf *.ucdb
 	rm -rf transcript
 	rm -rf *.wlf
+	rm -rf ucdb/*.txt

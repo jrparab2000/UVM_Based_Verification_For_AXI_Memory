@@ -1,6 +1,0 @@
-- Entry: 1
-  Time: Wed Dec 24 17:40:22 2025
-  Command: qrun -64 -sv_seed 244554444 -coverage -onfinish stop -classdebug -uvmcontrol=all -msgmode both -l logs/direct_test_seq_wr_244554444.log -f filelist.f -do cli.do +UVM_TESTNAME=direct_test_seq_wr -debug,livesim +UVM_VERBOSITY=UVM_NONE +READS=1405 +WRITES=6398 +COV_EN=1 +PRE_EN=1 +RUNS=8157 -top hdl_top -top hvl_top 
-- Entry: 2
-  Time: Wed Dec 24 17:44:17 2025
-  Command: qrun -64 -sv_seed 694580095 -coverage -onfinish stop -classdebug -uvmcontrol=all -msgmode both -l logs/test_top_694580095.log -f filelist.f -do cli.do +UVM_TESTNAME=test_top -debug,livesim +UVM_VERBOSITY=UVM_NONE +READS=6252 +WRITES=9935 +COV_EN=1 +PRE_EN=1 +RUNS=8758 -top hdl_top -top hvl_top 

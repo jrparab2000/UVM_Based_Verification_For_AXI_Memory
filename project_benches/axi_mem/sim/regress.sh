@@ -6,5 +6,5 @@ make cli SV_SEED=566568 UVM_TEST=direct_test_seq_wr RUNS=3485 VERBOSITY=UVM_NONE
 make cli SV_SEED=464986 UVM_TEST=direct_test_seq_wr RUNS=125 VERBOSITY=UVM_NONE 
 make cli SV_SEED=68289 UVM_TEST=direct_test_seq_wr RUNS=2892 VERBOSITY=UVM_NONE 
 make cli SV_SEED=435824 UVM_TEST=test_top READS=3243 WRITES=50 VERBOSITY=UVM_NONE 
-vcover merge ucdb/final.ucdb *.ucdb
-vsim -viewcov ucdb/final.ucdb
+vcover merge final.ucdb *.ucdb
+vsim -viewcov final.ucdb
